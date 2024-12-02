@@ -43,6 +43,12 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
         --project=${PROJECT_ID} \
         --region=${REGION} \
         --release-channel=rapid
+- Create a Kubernetes secret for Hugging Face credentials
+    gcloud container clusters get-credentials ${CLUSTER_NAME} --location=${REGION}
+
+    kubectl create secret generic hf-secret \
+    --from-literal=hf_api_token=$HF_TOKEN \
+    --dry-run=client -o yaml | kubectl apply -f -
 
 
 - Deploy a vLLM container to your cluster.
