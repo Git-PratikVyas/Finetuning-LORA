@@ -32,14 +32,14 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
 - Prepare your environment with a GKE cluster in Autopilot mode.
 - Make sure [GPU quota](https://cloud.google.com/compute/resource-usage#gpu_quota) are available to your project.
 - Set the default environment variables
-        ```command
+```command
         gcloud config set project PROJECT_ID
         export PROJECT_ID=$(gcloud config get project)
         export REGION=REGION
         export CLUSTER_NAME=vllm
         export HF_TOKEN=HF_TOKEN
 - Create a GKE cluster and node pool
-        ```command
+```command
         gcloud container clusters create-auto ${CLUSTER_NAME} \
         --project=${PROJECT_ID} \
         --region=${REGION} \
