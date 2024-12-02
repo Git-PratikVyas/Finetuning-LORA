@@ -1,7 +1,7 @@
 
 # Finetuning with LORA
-- Finetuning pretrained decoder only model with LORA for (abstracrive ) summarization task.
-- Push finetuned model to Huggingface hub for deployment on GKE ( or anyother cloud ).
+- Finetuning pretrained decoder only model with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
+- Push finetuned model to [Huggingface](https://huggingface.co/) hub for deployment on GKE ( or anyother cloud ).
 - Use [vLLM](https://docs.vllm.ai/en/latest/) inference server on GKE to serve model for distributed inference.  
 
 # Table of Contents
