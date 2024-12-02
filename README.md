@@ -130,9 +130,16 @@ deploy the vLLM container to serve ```Prat/Mistral-7B-Instruct-v0.3_summarizer_v
 ```
 
 2. Apply the manifest:
+once you apply this command, A Pod in the cluster downloads the model weights from Hugging Face and starts the serving engine.
 ```command
     kubectl apply -f vllm-2-2b-it.yaml
 ```
+
+3. Wait for the Deployment to be available:
+```command
+    kubectl wait --for=condition=Available --timeout=700s deployment/vllm-gemma-deployment
+```
+
 
 - Use vLLM to serve the model through curl and a web chat interface.
 
