@@ -40,17 +40,21 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
         export HF_TOKEN=HF_TOKEN
  ```       
 - Create a GKE cluster and node pool
+```command
         gcloud container clusters create-auto ${CLUSTER_NAME} \
         --project=${PROJECT_ID} \
         --region=${REGION} \
         --release-channel=rapid
+ ```  
 - Create a Kubernetes secret for Hugging Face credentials
+```command
     gcloud container clusters get-credentials ${CLUSTER_NAME} --location=${REGION}
-
+```
+```command
     kubectl create secret generic hf-secret \
     --from-literal=hf_api_token=$HF_TOKEN \
     --dry-run=client -o yaml | kubectl apply -f -
-
+```
 
 - Deploy a vLLM container to your cluster.
 - Use vLLM to serve the model through curl and a web chat interface.
