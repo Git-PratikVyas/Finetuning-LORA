@@ -21,9 +21,11 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
 
 
 ## Prerequisite
-- Machine with GPU (T4 or higher) 
-- Huggingface account and token to load pre-trained model and push finetuned model to hub.
-- Weights & Biases (W&B) account and token to integrate and publish all training/eval matrices for monitoring and evaluation.
+- Machine with ***GPU*** (T4 or higher).
+- ***Google cloud GKE*** to server model. 
+- ***Huggingface account*** and token to load pre-trained model and push finetuned model to hub.
+- ***Weights & Biases (W&B)*** account and token to integrate and publish all training/eval matrices for monitoring and evaluation.
+
 
 
 ## Deployment
