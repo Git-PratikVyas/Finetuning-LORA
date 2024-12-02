@@ -172,7 +172,7 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 ## Monitoring Latency and Throughput on GKE
 Use [Horizontal Pod Scaling (HPS)](https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler) to improve latency and throughput.
 Important matrices for HPS are
-1. Queue Size: First option to choose if latency target can be met with queue size.
+1. Queue Size: First option to choose if latency target can be met with queue size autoscaling.
 2. Batch Size: Good for latency sensitive workload and requirement are not met with queue size autoscaling.
 3. GPU Memory Usage: Good indicator to upscale resources.
 
