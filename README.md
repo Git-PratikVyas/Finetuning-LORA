@@ -29,17 +29,21 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
 
 
 ## Deployment
-- Prepare your environment with a GKE cluster in Autopilot or Standard mode.
-Create your billable project on GKE. 
-- Make sure [GPU quota](https://cloud.google.com/compute/resource-usage#gpu_quota) available to your project.
+- Prepare your environment with a GKE cluster in Autopilot mode.
+- Make sure [GPU quota](https://cloud.google.com/compute/resource-usage#gpu_quota) are available to your project.
 - Set the default environment variables
-```command
-gcloud config set project PROJECT_ID
-export PROJECT_ID=$(gcloud config get project)
-export REGION=REGION
-export CLUSTER_NAME=vllm
-export HF_TOKEN=HF_TOKEN
-
+        ```command
+        gcloud config set project PROJECT_ID
+        export PROJECT_ID=$(gcloud config get project)
+        export REGION=REGION
+        export CLUSTER_NAME=vllm
+        export HF_TOKEN=HF_TOKEN
+- Create a GKE cluster and node pool
+        ```command
+        gcloud container clusters create-auto ${CLUSTER_NAME} \
+        --project=${PROJECT_ID} \
+        --region=${REGION} \
+        --release-channel=rapid
 
 
 - Deploy a vLLM container to your cluster.
