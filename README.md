@@ -9,7 +9,7 @@
 1. [Introduction](#introduction)
 2. [Prerequisite](#prerequisite)
 3. [Deployment on GKE](#deployment)
-4. [Serve the model](#servethemodel)
+4. [Serve the model](#serve-the-model)
 5. [Contributing](#contributing)
 
 ## Introduction
