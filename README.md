@@ -64,7 +64,7 @@ deploy the vLLM container to serve ```Prat/Mistral-7B-Instruct-v0.3_summarizer_v
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-    name: vllm-gemma-deployment
+    name: vllm-mistral-deployment
     spec:
     replicas: 1
     selector:
@@ -138,7 +138,7 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 
 3. Wait for the Deployment to be available:
 ```shell 
-    kubectl wait --for=condition=Available --timeout=700s deployment/vllm-gemma-deployment
+    kubectl wait --for=condition=Available --timeout=700s deployment/vllm-mistral-deployment
 ```
 
 ## Serve the model
@@ -177,7 +177,7 @@ Detailed Explanation
 
 ```yaml
     metadata:
-    name: vllm-gemma-deployment
+    name: vllm-mistral-deployment
 ```
 
     - metadata: Provides metadata for the deployment.
