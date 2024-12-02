@@ -32,7 +32,7 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
 - Prepare your environment with a GKE cluster in Autopilot mode.
 - Make sure [GPU quota](https://cloud.google.com/compute/resource-usage#gpu_quota) are available to your project.
 - Set the default environment variables
-```command
+```shell
         gcloud config set project PROJECT_ID
         export PROJECT_ID=$(gcloud config get project)
         export REGION=REGION
@@ -40,17 +40,17 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
         export HF_TOKEN=HF_TOKEN
  ```       
 - Create a GKE cluster and node pool
-```command
+```shell
         gcloud container clusters create-auto ${CLUSTER_NAME} \
         --project=${PROJECT_ID} \
         --region=${REGION} \
         --release-channel=rapid
  ```  
 - Create a Kubernetes secret for Hugging Face credentials
-```command
+```shell
     gcloud container clusters get-credentials ${CLUSTER_NAME} --location=${REGION}
 ```
-```command
+```shell
     kubectl create secret generic hf-secret \
     --from-literal=hf_api_token=$HF_TOKEN \
     --dry-run=client -o yaml | kubectl apply -f -
@@ -130,13 +130,14 @@ deploy the vLLM container to serve ```Prat/Mistral-7B-Instruct-v0.3_summarizer_v
 ```
 
 2. Apply the manifest:
+
 once you apply this command, A Pod in the cluster downloads the model weights from Hugging Face and starts the serving engine.
-```command
+```shell
     kubectl apply -f vllm-2-2b-it.yaml
 ```
 
 3. Wait for the Deployment to be available:
-```command
+```shell 
     kubectl wait --for=condition=Available --timeout=700s deployment/vllm-gemma-deployment
 ```
 
