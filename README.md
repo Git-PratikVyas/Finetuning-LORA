@@ -61,7 +61,7 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
 - Deploy a vLLM to your cluster.
 deploy the vLLM container to serve ```Prat/Mistral-7B-Instruct-v0.3_summarizer_v1```
 
-1. Create the following vllm-2-2b-it.yaml manifest:
+1. Create the following vllm-3-7b-it.yaml manifest:
 ```yaml
     apiVersion: apps/v1
     kind: Deployment
@@ -135,7 +135,7 @@ deploy the vLLM container to serve ```Prat/Mistral-7B-Instruct-v0.3_summarizer_v
 
 once you apply this command, A Pod in the cluster downloads the model weights from Hugging Face and starts the serving engine.
 ```shell
-    kubectl apply -f vllm-2-2b-it.yaml
+    kubectl apply -f vllm-3-7b-it.yaml
 ```
 
 3. Wait for the Deployment to be available:
