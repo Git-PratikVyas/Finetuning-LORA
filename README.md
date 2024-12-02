@@ -194,7 +194,7 @@ Kubernetes Deployment YAML file in detail.
 template:
   metadata:
     labels:
-      app: gemma-server
+      app: mistral-summarizer-server
       ai.gke.io/model: gemma-2-2b-it
       ai.gke.io/inference-server: vllm
       examples.ai.gke.io/source: user-guide
@@ -210,8 +210,8 @@ template:
    - **labels**:
    The `labels` field is a set of key-value pairs that are used to organize and select Kubernetes resources. Labels are used for various purposes, such as identifying and grouping resources, and for selecting resources using label selectors.
 
-   - **app: gemma-server**:
-     This label indicates that the pod is part of the `gemma-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
+   - **app: mistral-summarizer-server**:
+     This label indicates that the pod is part of the `mistral-summarizer-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
 
    - **ai.gke.io/model: gemma-2-2b-it**:
      This label specifies the model being used by the pod. In this case, it is the `gemma-2-2b-it` model. This label can be used to identify and manage pods that are running this specific model.
@@ -375,7 +375,7 @@ metadata:
 ```yaml
 spec:
   selector:
-    app: gemma-server
+    app: mistral-summarizer-server
   type: ClusterIP
   ports:
     - protocol: TCP
@@ -388,10 +388,10 @@ spec:
   - **selector**:
     ```yaml
     selector:
-      app: gemma-server
+      app: mistral-summarizer-server
     ```
     - **selector**: Defines the label selector to identify the pods that the service will expose. The service will route traffic to the pods that match the specified labels.
-      - **app: gemma-server**: The label selector that matches pods with the label `app: gemma-server`.
+      - **app: mistral-summarizer-server**: The label selector that matches pods with the label `app: mistral-summarizer-server`.
 
   - **type**:
     ```yaml
