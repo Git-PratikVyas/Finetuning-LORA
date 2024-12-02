@@ -202,25 +202,25 @@ template:
 
 
   - **template**:
-   - The `template` field defines the pod template. This template is used to create the pods that are managed by the deployment.
+   The `template` field defines the pod template. This template is used to create the pods that are managed by the deployment.
 
    - **metadata**:
-   - The `metadata` field within the `template` specifies metadata for the pods. This includes labels that are applied to the pods.
+   The `metadata` field within the `template` specifies metadata for the pods. This includes labels that are applied to the pods.
 
    - **labels**:
-   - The `labels` field is a set of key-value pairs that are used to organize and select Kubernetes resources. Labels are used for various purposes, such as identifying and grouping resources, and for selecting resources using label selectors.
+   The `labels` field is a set of key-value pairs that are used to organize and select Kubernetes resources. Labels are used for various purposes, such as identifying and grouping resources, and for selecting resources using label selectors.
 
    - **app: gemma-server**:
-     - This label indicates that the pod is part of the `gemma-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
+     This label indicates that the pod is part of the `gemma-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
 
    - **ai.gke.io/model: gemma-2-2b-it**:
-     - This label specifies the model being used by the pod. In this case, it is the `gemma-2-2b-it` model. This label can be used to identify and manage pods that are running this specific model.
+     This label specifies the model being used by the pod. In this case, it is the `gemma-2-2b-it` model. This label can be used to identify and manage pods that are running this specific model.
 
    - **ai.gke.io/inference-server: vllm**:
-     - This label indicates that the pod is using the `vllm` inference server. This label can be used to identify and manage pods that are running the vLLM inference server.
+     This label indicates that the pod is using the `vllm` inference server. This label can be used to identify and manage pods that are running the vLLM inference server.
 
    - **examples.ai.gke.io/source: user-guide**:
-     - This label provides additional metadata about the source of the configuration. In this case, it indicates that the configuration is based on a user guide example. This label can be used for documentation or organizational purposes.
+     This label provides additional metadata about the source of the configuration. In this case, it indicates that the configuration is based on a user guide example. This label can be used for documentation or organizational purposes.
 
 
 **spec**:
