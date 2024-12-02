@@ -10,7 +10,7 @@
 2. [Prerequisite](#prerequisite)
 3. [Deployment on GKE](#deployment)
 4. [Serve the model](#serve-the-model)
-5. [Monitoring Latency and Throughput on GKE](#monitoring-latency-and-throughput-on-gke)
+5. [Autoscaling for better Latency and Throughput on GKE](#autoscaling-for-better-latency-and-throughput-on-gke)
 6. [GPU utilization on GKE](gpu-utilization-on-gke)
 7. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
 
@@ -169,7 +169,7 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 2. you can also create UI to interact with the model.
 
 
-## Monitoring Latency and Throughput on GKE
+## Autoscaling for better Latency and Throughput on GKE
 Use [Horizontal Pod Scaling (HPS)](https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler) to improve latency and throughput.
 Important matrices for HPS are
 1. Queue Size: First option to choose if latency target can be met with queue size autoscaling.
