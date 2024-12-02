@@ -250,7 +250,6 @@ Detailed Explanation
 
     - metadata: Provides metadata for the deployment, including the name.
     - name: The name of the deployment.
-
     - spec: Defines the desired state of the deployment, including the number of replicas, the pod template, and the container specifications.
     - replicas: Specifies the number of pod replicas to run.
     - selector: Defines the label selector to identify the pods managed by this deployment.
