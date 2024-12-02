@@ -385,27 +385,11 @@ spec:
 
 - **spec**: Defines the desired state of the service, including the selector, type, and ports.
 
-  - **selector**:
-    ```yaml
-    selector:
-      app: mistral-summarizer-server
-    ```
     - **selector**: Defines the label selector to identify the pods that the service will expose. The service will route traffic to the pods that match the specified labels.
       - **app: mistral-summarizer-server**: The label selector that matches pods with the label `app: mistral-summarizer-server`.
 
-  - **type**:
-    ```yaml
-    type: ClusterIP
-    ```
     - **type**: Specifies the type of service. `ClusterIP` is the default type, which exposes the service on a cluster-internal IP. This means the service is only accessible within the cluster.
 
-  - **ports**:
-    ```yaml
-    ports:
-      - protocol: TCP
-        port: 8000
-        targetPort: 8000
-    ```
     - **ports**: Defines the ports that the service will expose.
       - **protocol**: The protocol used by the service. In this case, it is `TCP`.
       - **port**: The port on which the service will be exposed. In this case, it is `8000`.
