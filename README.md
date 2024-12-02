@@ -195,7 +195,7 @@ template:
   metadata:
     labels:
       app: mistral-summarizer-server
-      ai.gke.io/model: gemma-2-2b-it
+      ai.gke.io/model: mistral-7B-instruct-v0.3
       ai.gke.io/inference-server: vllm
       examples.ai.gke.io/source: user-guide
 ```
@@ -213,8 +213,8 @@ template:
    - **app: mistral-summarizer-server**:
      This label indicates that the pod is part of the `mistral-summarizer-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
 
-   - **ai.gke.io/model: gemma-2-2b-it**:
-     This label specifies the model being used by the pod. In this case, it is the `gemma-2-2b-it` model. This label can be used to identify and manage pods that are running this specific model.
+   - **ai.gke.io/model: mistral-7B-instruct-v0.3**:
+     This label specifies the model being used by the pod. In this case, it is the `mistral-7B-instruct-v0.3` model. This label can be used to identify and manage pods that are running this specific model.
 
    - **ai.gke.io/inference-server: vllm**:
      This label indicates that the pod is using the `vllm` inference server. This label can be used to identify and manage pods that are running the vLLM inference server.
