@@ -180,8 +180,8 @@ Kubernetes Deployment YAML file in detail.
     name: vllm-gemma-deployment
     ```
 
-    - **metadata**: Provides metadata for the deployment.
-    - **name**: The name of the deployment. This name is used to identify the deployment within the Kubernetes cluster.
+    - __metadata__: Provides metadata for the deployment.
+    - __name__: The name of the deployment. This name is used to identify the deployment within the Kubernetes cluster.
 
     2. spec
 
@@ -215,65 +215,65 @@ Kubernetes Deployment YAML file in detail.
                 nvidia.com/gpu: "1"
     ```
 
-    - **spec**: Defines the desired state of the deployment, including the number of replicas, the pod template, and the container specifications.
+    - __spec__: Defines the desired state of the deployment, including the number of replicas, the pod template, and the container specifications.
 
-    - **replicas**: Specifies the number of pod replicas to run. In this case, it is set to 1, meaning only one instance of the pod will be running.
+    - __replicas__: Specifies the number of pod replicas to run. In this case, it is set to 1, meaning only one instance of the pod will be running.
 
-    - **selector**: Defines the label selector to identify the pods managed by this deployment.
-        - **matchLabels**: Specifies the labels that the pods must have to be managed by this deployment. In this case, the label is `app: mistral-summarizer-server`.
+    - __selector__: Defines the label selector to identify the pods managed by this deployment.
+        - __matchLabels__: Specifies the labels that the pods must have to be managed by this deployment. In this case, the label is `app: mistral-summarizer-server`.
 
-    - **template**: Defines the pod template used to create the pods.
-        - **metadata**: Specifies metadata for the pods, including labels.
-        - **labels**: Key-value pairs used to organize and select Kubernetes resources.
-            - **app: mistral-summarizer-server**: Identifies the application to which the pod belongs.
-            - **ai.gke.io/model: mistral-7B-instruct-v0.3**: Specifies the model being used by the pod.
-            - **ai.gke.io/inference-server: vllm**: Indicates that the pod is using the vLLM inference server.
-            - **examples.ai.gke.io/source: user-guide**: Provides additional metadata about the source of the configuration.
+    - __template__: Defines the pod template used to create the pods.
+        - __metadata__: Specifies metadata for the pods, including labels.
+        - __labels__: Key-value pairs used to organize and select Kubernetes resources.
+            - __app: mistral-summarizer-server__: Identifies the application to which the pod belongs.
+            - __ai.gke.io/model: mistral-7B-instruct-v0.3__: Specifies the model being used by the pod.
+            - __ai.gke.io/inference-server: vllm__: Indicates that the pod is using the vLLM inference server.
+            - __examples.ai.gke.io/source: user-guide__: Provides additional metadata about the source of the configuration.
 
-        - **spec**: Defines the specifications for the pod.
-        - **containers**: Specifies the container configuration for the pod.
-            - **name**: The name of the container (`inference-server`).
-            - **image**: The Docker image to use for the container (`us-docker.pkg.dev/vertex-ai/vertex-vision-model-garden-dockers/pytorch-vllm-serve:20240930_0945_RC00`).
-            - **resources**: Specifies the resource requests and limits for the container.
-            - **requests**: The minimum amount of resources required for the container.
-                - **cpu**: Requests 2 CPU cores.
-                - **memory**: Requests 10 GiB of memory.
-                - **ephemeral-storage**: Requests 10 GiB of ephemeral storage.
-                - **nvidia.com/gpu**: Requests 1 NVIDIA GPU.
-            - **limits**: The maximum amount of resources the container is allowed to use.
-                - **cpu**: Limits the container to 2 CPU cores.
-                - **memory**: Limits the container to 10 GiB of memory.
-                - **ephemeral-storage**: Limits the container to 10 GiB of ephemeral storage.
-                - **nvidia.com/gpu**: Limits the container to 1 NVIDIA GPU.
+        - __spec__: Defines the specifications for the pod.
+        - __containers__: Specifies the container configuration for the pod.
+            - __name__: The name of the container (`inference-server`).
+            - __image__: The Docker image to use for the container (`us-docker.pkg.dev/vertex-ai/vertex-vision-model-garden-dockers/pytorch-vllm-serve:20240930_0945_RC00`).
+            - __resources__: Specifies the resource requests and limits for the container.
+            - __requests__: The minimum amount of resources required for the container.
+                - __cpu__: Requests 2 CPU cores.
+                - __memory__: Requests 10 GiB of memory.
+                - __ephemeral-storage__: Requests 10 GiB of ephemeral storage.
+                - __nvidia.com/gpu__: Requests 1 NVIDIA GPU.
+            - __limits__: The maximum amount of resources the container is allowed to use.
+                - __cpu__: Limits the container to 2 CPU cores.
+                - __memory__: Limits the container to 10 GiB of memory.
+                - __ephemeral-storage__: Limits the container to 10 GiB of ephemeral storage.
+                - __nvidia.com/gpu__: Limits the container to 1 NVIDIA GPU.
 
     ### Summary
 
-    - **metadata**: Provides metadata for the deployment, including the name.
-    - **name**: The name of the deployment.
+    - __metadata__: Provides metadata for the deployment, including the name.
+    - __name__: The name of the deployment.
 
-    - **spec**: Defines the desired state of the deployment, including the number of replicas, the pod template, and the container specifications.
-    - **replicas**: Specifies the number of pod replicas to run.
-    - **selector**: Defines the label selector to identify the pods managed by this deployment.
-        - **matchLabels**: Specifies the labels that the pods must have to be managed by this deployment.
-    - **template**: Defines the pod template used to create the pods.
-        - **metadata**: Specifies metadata for the pods, including labels.
-        - **labels**: Key-value pairs used to organize and select Kubernetes resources.
-            - **app: mistral-summarizer-server**: Identifies the application to which the pod belongs.
-            - **ai.gke.io/model: mistral-7B-instruct-v0.3**: Specifies the model being used by the pod.
-            - **ai.gke.io/inference-server: vllm**: Indicates that the pod is using the vLLM inference server.
-            - **examples.ai.gke.io/source: user-guide**: Provides additional metadata about the source of the configuration.
-        - **spec**: Defines the specifications for the pod.
-        - **containers**: Specifies the container configuration for the pod.
-            - **name**: The name of the container (`inference-server`).
-            - **image**: The Docker image to use for the container (`us-docker.pkg.dev/vertex-ai/vertex-vision-model-garden-dockers/pytorch-vllm-serve:20240930_0945_RC00`).
-            - **resources**: Specifies the resource requests and limits for the container.
-            - **requests**: The minimum amount of resources required for the container.
-                - **cpu**: Requests 2 CPU cores.
-                - **memory**: Requests 10 GiB of memory.
-                - **ephemeral-storage**: Requests 10 GiB of ephemeral storage.
-                - **nvidia.com/gpu**: Requests 1 NVIDIA GPU.
-            - **limits**: The maximum amount of resources the container is allowed to use.
-                - **cpu**: Limits the container to 2 CPU cores.
-                - **memory**: Limits the container to 10 GiB of memory.
-                - **ephemeral-storage**: Limits the container to 10 GiB of ephemeral storage.
-                - **nvidia.com/gpu**: Limits the container to 1 NVIDIA GPU.
+    - __spec__: Defines the desired state of the deployment, including the number of replicas, the pod template, and the container specifications.
+    - __replicas__: Specifies the number of pod replicas to run.
+    - __selector__: Defines the label selector to identify the pods managed by this deployment.
+        - __matchLabels__: Specifies the labels that the pods must have to be managed by this deployment.
+    - __template__: Defines the pod template used to create the pods.
+        - __metadata__: Specifies metadata for the pods, including labels.
+        - __labels__: Key-value pairs used to organize and select Kubernetes resources.
+            - __app: mistral-summarizer-server__: Identifies the application to which the pod belongs.
+            - __ai.gke.io/model: mistral-7B-instruct-v0.3__: Specifies the model being used by the pod.
+            - __ai.gke.io/inference-server: vllm__: Indicates that the pod is using the vLLM inference server.
+            - __examples.ai.gke.io/source: user-guide__: Provides additional metadata about the source of the configuration.
+        - __spec__: Defines the specifications for the pod.
+        - __containers__: Specifies the container configuration for the pod.
+            - __name__: The name of the container (`inference-server`).
+            - __image__: The Docker image to use for the container (`us-docker.pkg.dev/vertex-ai/vertex-vision-model-garden-dockers/pytorch-vllm-serve:20240930_0945_RC00`).
+            - __resources__: Specifies the resource requests and limits for the container.
+            - __requests__: The minimum amount of resources required for the container.
+                - __cpu__: Requests 2 CPU cores.
+                - __memory__: Requests 10 GiB of memory.
+                - __ephemeral-storage__: Requests 10 GiB of ephemeral storage.
+                - __nvidia.com/gpu__: Requests 1 NVIDIA GPU.
+            - __limits__: The maximum amount of resources the container is allowed to use.
+                - __cpu__: Limits the container to 2 CPU cores.
+                - __memory__: Limits the container to 10 GiB of memory.
+                - __ephemeral-storage__: Limits the container to 10 GiB of ephemeral storage.
+                - __nvidia.com/gpu__: Limits the container to 1 NVIDIA GPU.
