@@ -171,21 +171,21 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 
 Kubernetes Deployment YAML file in detail.
 
-    Detailed Explanation
+Detailed Explanation
 
     1. metadata
 
-    ```yaml
+```yaml
     metadata:
     name: vllm-gemma-deployment
-    ```
+```
 
     - __metadata__: Provides metadata for the deployment.
     - __name__: The name of the deployment. This name is used to identify the deployment within the Kubernetes cluster.
 
     2. spec
 
-    ```yaml
+```yaml
     spec:
     replicas: 1
     selector:
@@ -213,7 +213,7 @@ Kubernetes Deployment YAML file in detail.
                 memory: "10Gi"
                 ephemeral-storage: "10Gi"
                 nvidia.com/gpu: "1"
-    ```
+```
 
     - __spec__: Defines the desired state of the deployment, including the number of replicas, the pod template, and the container specifications.
 
@@ -246,7 +246,7 @@ Kubernetes Deployment YAML file in detail.
                 - __ephemeral-storage__: Limits the container to 10 GiB of ephemeral storage.
                 - __nvidia.com/gpu__: Limits the container to 1 NVIDIA GPU.
 
-    ### Summary
+    - Summary
 
     - __metadata__: Provides metadata for the deployment, including the name.
     - __name__: The name of the deployment.
