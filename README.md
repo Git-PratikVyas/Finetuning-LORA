@@ -8,9 +8,9 @@
 
 1. [Introduction](#introduction)
 2. [Prerequisite](#prerequisite)
-2. [Deployment on GKE](#deployment)
-3. [Usage](#usage)
-4. [Contributing](#contributing)
+3. [Deployment on GKE](#deployment)
+4. [Serve the model](#servethemodel)
+5. [Contributing](#contributing)
 
 ## Introduction
 Finetuned two pretrained models 
@@ -141,12 +141,27 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
     kubectl wait --for=condition=Available --timeout=700s deployment/vllm-gemma-deployment
 ```
 
+## Serve the model
+1. Set up port forwarding
+```shell
+    kubectl port-forward service/llm-service 8000:8000
+```
+2. Interact with the model using curl
+```shell
+        USER_PROMPT="
+        user:\nSummarise dialogue in one sentence.\n
+        dialogue: Amanda: I baked  cookies. Do you want some?\r\nJerry: Sure!\r\nAmanda: I'll bring you tomorrow :-)
+        summary:"
 
-- Use vLLM to serve the model through curl and a web chat interface.
-
-
-## Usage
-How to use the project.
-
-## Contributing
-Guidelines for contributing to the project.
+        curl -X POST http://localhost:8000/generate \
+        -H "Content-Type: application/json" \
+        -d @- <<EOF
+        {
+            "prompt": "<start_of_turn>user\n${USER_PROMPT}<end_of_turn>\n",
+            "temperature": 0.90,
+            "top_p": 1.0,
+            "max_tokens": 128
+        }
+        EOF
+```
+2. you can also create UI to interact with the model.
