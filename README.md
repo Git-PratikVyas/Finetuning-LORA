@@ -171,9 +171,9 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 
 Kubernetes Deployment YAML file in detail.
 
-    ### Detailed Explanation
+    Detailed Explanation
 
-    #### 1. `metadata`
+    1. metadata
 
     ```yaml
     metadata:
@@ -183,7 +183,7 @@ Kubernetes Deployment YAML file in detail.
     - **metadata**: Provides metadata for the deployment.
     - **name**: The name of the deployment. This name is used to identify the deployment within the Kubernetes cluster.
 
-    #### 2. `spec`
+    2. spec
 
     ```yaml
     spec:
