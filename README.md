@@ -10,7 +10,8 @@
 2. [Prerequisite](#prerequisite)
 3. [Deployment on GKE](#deployment)
 4. [Serve the model](#serve-the-model)
-5. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
+5. [Monitoring Latency and Throughput on GKE](#monitoring-latency-and-throughput-on-gke)
+6. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
 
 ## Introduction
 Finetuned two pretrained models 
@@ -166,6 +167,8 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 ```
 2. you can also create UI to interact with the model.
 
+
+## Monitoring Latency and Throughput on GKE
 
 ## Appendix Kubernetes Deployment Explanation
 
