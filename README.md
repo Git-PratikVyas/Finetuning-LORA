@@ -56,7 +56,84 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
     --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-- Deploy a vLLM container to your cluster.
+- Deploy a vLLM to your cluster.
+deploy the vLLM container to serve ```Prat/Mistral-7B-Instruct-v0.3_summarizer_v1```
+
+1. Create the following vllm-2-2b-it.yaml manifest:
+```command
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+        name: vllm-gemma-deployment
+        spec:
+        replicas: 1
+        selector:
+            matchLabels:
+            app: mistral-summarizer-server
+        template:
+            metadata:
+            labels:
+                app: mistral-summarizer-server
+                ai.gke.io/model: mistral-7B-instruct-v0.3
+                ai.gke.io/inference-server: vllm
+                examples.ai.gke.io/source: user-guide
+            spec:
+            containers:
+            - name: inference-server
+                image: us-docker.pkg.dev/vertex-ai/vertex-vision-model-garden-dockers/pytorch-vllm-serve:20240930_0945_RC00
+                resources:
+                requests:
+                    cpu: "2"
+                    memory: "10Gi"
+                    ephemeral-storage: "10Gi"
+                    nvidia.com/gpu: "1"
+                limits:
+                    cpu: "2"
+                    memory: "10Gi"
+                    ephemeral-storage: "10Gi"
+                    nvidia.com/gpu: "1"
+                command: ["python3", "-m", "vllm.entrypoints.api_server"]
+                args:
+                - --model=$(MODEL_ID)
+                - --tensor-parallel-size=1
+                env:
+                - name: MODEL_ID
+                value: Prat/Mistral-7B-Instruct-v0.3_summarizer_v1
+                - name: HUGGING_FACE_HUB_TOKEN
+                valueFrom:
+                    secretKeyRef:
+                    name: hf-secret
+                    key: hf_api_token
+                volumeMounts:
+                - mountPath: /dev/shm
+                name: dshm
+            volumes:
+            - name: dshm
+                emptyDir:
+                    medium: Memory
+            nodeSelector:
+                cloud.google.com/gke-accelerator: nvidia-l4
+                cloud.google.com/gke-gpu-driver-version: latest
+        ---
+        apiVersion: v1
+        kind: Service
+        metadata:
+        name: llm-service
+        spec:
+        selector:
+            app: mistral-summarizer-server
+        type: ClusterIP
+        ports:
+            - protocol: TCP
+            port: 8000
+            targetPort: 8000
+```
+
+2. Apply the manifest:
+```command
+    kubectl apply -f vllm-2-2b-it.yaml
+```
+
 - Use vLLM to serve the model through curl and a web chat interface.
 
 
