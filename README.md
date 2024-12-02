@@ -39,7 +39,6 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
         export CLUSTER_NAME=vllm
         export HF_TOKEN=HF_TOKEN
 - Create a GKE cluster and node pool
-
         gcloud container clusters create-auto ${CLUSTER_NAME} \
         --project=${PROJECT_ID} \
         --region=${REGION} \
