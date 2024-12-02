@@ -1,5 +1,5 @@
 
-# Finetuning with LORA and Serve model on GKE using vLLM
+# Finetuning with LORA and serving model on GKE using vLLM
 - Finetuning pretrained decoder only model with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
 - Push finetuned model to [Huggingface](https://huggingface.co/) hub for deployment on GKE ( or anyother cloud ). 
 - Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
@@ -151,9 +151,8 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 2. Interact with the model using curl
 ```shell
         USER_PROMPT="
-        user:\nSummarise dialogue in one sentence.\n
-        dialogue: Amanda: I baked  cookies. Do you want some?\r\nJerry: Sure!\r\nAmanda: I'll bring you tomorrow :-)
-        summary:"
+        Summarise dialogue in one sentence.\n
+        Amanda: I baked  cookies. Do you want some?\r\nJerry: Sure!\r\nAmanda: I'll bring you tomorrow :-)"
 
         curl -X POST http://localhost:8000/generate \
         -H "Content-Type: application/json" \
