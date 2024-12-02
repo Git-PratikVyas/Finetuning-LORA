@@ -1,8 +1,8 @@
 
 # Finetuning with LORA
 - Finetuning pretrained decoder only model with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
-- Push finetuned model to [Huggingface](https://huggingface.co/) hub for deployment on GKE ( or anyother cloud ).
-- Use [vLLM](https://docs.vllm.ai/en/latest/) inference server on GKE to serve model for distributed inference.  
+- Push finetuned model to [Huggingface](https://huggingface.co/) hub for deployment on GKE ( or anyother cloud ). 
+- Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
 
 # Table of Contents
 
@@ -29,7 +29,22 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
 
 
 ## Deployment
-Instructions for installation.
+- Prepare your environment with a GKE cluster in Autopilot or Standard mode.
+Create your billable project on GKE. 
+- Make sure [GPU quota](https://cloud.google.com/compute/resource-usage#gpu_quota) available to your project.
+- Set the default environment variables
+```command
+gcloud config set project PROJECT_ID
+export PROJECT_ID=$(gcloud config get project)
+export REGION=REGION
+export CLUSTER_NAME=vllm
+export HF_TOKEN=HF_TOKEN
+
+
+
+- Deploy a vLLM container to your cluster.
+- Use vLLM to serve the model through curl and a web chat interface.
+
 
 ## Usage
 How to use the project.
