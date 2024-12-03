@@ -1,5 +1,5 @@
 
-# Finetuning with LORA and serving model on GKE using vLLM
+# Distributed finetuning with LORA and serving model on GKE using vLLM
 - Finetuning pretrained decoder only model with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
 - Use [Huggingface Accelerate](https://huggingface.co/docs/accelerate/index) for distributed training
 - Push finetuned model to [Huggingface](https://huggingface.co/) hub for deployment on GKE ( or anyother cloud ). 

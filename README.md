@@ -3,7 +3,7 @@
 - Finetuning pretrained decoder only model with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
 - Push finetuned model to [Huggingface](https://huggingface.co/) hub for deployment on GKE ( or anyother cloud ). 
 - Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
-- For Distributed Finetuning, Please check folder [DistributedTraining](https://github.com/Git-PratikVyas/Finetuning-LORA/DistributedTraining) 
+- For Distributed Finetuning, Please check folder [DistributedTraining](https://github.com/Git-PratikVyas/Finetuning-LORA/tree/main/DistributedTraining) 
 
 # Table of Contents
 
