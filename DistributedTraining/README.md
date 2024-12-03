@@ -16,8 +16,8 @@
 7. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
 
 ## Introduction
-Finetuned two pretrained models 
-[Mistral-7B-Instruct-v0.3]( https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3 ) and [Llama-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct ) on [Samsum]( https://paperswithcode.com/paper/samsum-corpus-a-human-annotated-dialogue-1 ) database.
+Distributed finetuned pretrained model
+[Mistral-7B-Instruct-v0.3]( https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3 ) on [Samsum]( https://paperswithcode.com/paper/samsum-corpus-a-human-annotated-dialogue-1 ) database using [HuggingFace Accelerate](https://huggingface.co/docs/accelerate/index)
 Integrate and publish all training/eval matrices to [Weights & Biases (W&B)]( https://wandb.ai/home ) for tracking, monitoring, and collaboration.
 
 Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-Instruct-v0.3 ) to [Huggingface hub]( https://huggingface.co/Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2 ) for deployment on GKE.
