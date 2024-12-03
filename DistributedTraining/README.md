@@ -1,9 +1,9 @@
 
 # Finetuning with LORA and serving model on GKE using vLLM
 - Finetuning pretrained decoder only model with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
+- Use [Huggingface Accelerate](https://huggingface.co/docs/accelerate/index) for distributed training
 - Push finetuned model to [Huggingface](https://huggingface.co/) hub for deployment on GKE ( or anyother cloud ). 
 - Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
-- For Distributed Finetuning, Please check folder [DistributedTraining](https://github.com/Git-PratikVyas/Finetuning-LORA/DistributedTraining) 
 
 # Table of Contents
 
@@ -20,7 +20,7 @@ Finetuned two pretrained models
 [Mistral-7B-Instruct-v0.3]( https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3 ) and [Llama-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct ) on [Samsum]( https://paperswithcode.com/paper/samsum-corpus-a-human-annotated-dialogue-1 ) database.
 Integrate and publish all training/eval matrices to [Weights & Biases (W&B)]( https://wandb.ai/home ) for tracking, monitoring, and collaboration.
 
-Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-Instruct-v0.3 ) to [Huggingface hub]( https://huggingface.co/Prat/Mistral-7B-Instruct-v0.3_summarizer_v1 ) for deployment on GKE.
+Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-Instruct-v0.3 ) to [Huggingface hub]( https://huggingface.co/Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2 ) for deployment on GKE.
 
 
 ## Prerequisite
@@ -60,7 +60,7 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
 ```
 
 - Deploy a vLLM to your cluster.
-deploy the vLLM container to serve ```Prat/Mistral-7B-Instruct-v0.3_summarizer_v1```
+deploy the vLLM container to serve ```Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2```
 
 1. Create the following vllm-3-7b-it.yaml manifest:
 ```yaml
@@ -101,7 +101,7 @@ deploy the vLLM container to serve ```Prat/Mistral-7B-Instruct-v0.3_summarizer_v
             - --tensor-parallel-size=1
             env:
             - name: MODEL_ID
-            value: Prat/Mistral-7B-Instruct-v0.3_summarizer_v1
+            value: Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2
             - name: HUGGING_FACE_HUB_TOKEN
             valueFrom:
                 secretKeyRef:
@@ -290,7 +290,7 @@ args:
 ```yaml
 env:
 - name: MODEL_ID
-  value: Prat/Mistral-7B-Instruct-v0.3_summarizer_v1
+  value: Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2
 - name: HUGGING_FACE_HUB_TOKEN
   valueFrom:
     secretKeyRef:
@@ -302,8 +302,8 @@ env:
 
   - **MODEL_ID**:
     - **name**: The name of the environment variable (`MODEL_ID`).
-    - **value**: The value of the environment variable (`Prat/Mistral-7B-Instruct-v0.3_summarizer_v1`).
-    - This environment variable is used to specify the model ID that the inference server should use. The value `Prat/Mistral-7B-Instruct-v0.3_summarizer_v1` is the identifier for the model.
+    - **value**: The value of the environment variable (`Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2`).
+    - This environment variable is used to specify the model ID that the inference server should use. The value `Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2` is the identifier for the model.
 
   - **HUGGING_FACE_HUB_TOKEN**:
     - **name**: The name of the environment variable (`HUGGING_FACE_HUB_TOKEN`).
