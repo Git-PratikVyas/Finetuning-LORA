@@ -2,7 +2,7 @@
 # Distributed finetuning with LORA and serving model on GKE using vLLM
 - Finetuned pretrained decoder only model with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
 - Used [Huggingface Accelerate](https://huggingface.co/docs/accelerate/index) for distributed training
-- Pushed finetuned model to [Huggingface Hub](https://huggingface.co/Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2) hub for deployment on GKE ( or anyother cloud ). 
+- Pushed finetuned model to [Huggingface Hub](https://huggingface.co/Prat/gemma-2-9b-it_ft_summarizer_v1) hub for deployment on GKE ( or anyother cloud ). 
 - Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
 
 # Table of Contents
@@ -17,11 +17,11 @@
 
 ## Introduction
 Distributed finetuned pretrained model
-[Mistral-7B-Instruct-v0.3]( https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3 ) on [Samsum]( https://paperswithcode.com/paper/samsum-corpus-a-human-annotated-dialogue-1 ) database using [HuggingFace Accelerate](https://huggingface.co/docs/accelerate/index).
+[google/gemma-2-9b-it]( https://huggingface.co/google/gemma-2-9b-it ) on [Samsum]( https://paperswithcode.com/paper/samsum-corpus-a-human-annotated-dialogue-1 ) database using [HuggingFace Accelerate](https://huggingface.co/docs/accelerate/index).
 
 Integrate and publish all training/eval matrices to [Weights & Biases (W&B)]( https://wandb.ai/home ) for tracking, monitoring, and collaboration.
 
-Evaluate finetuned model on Rouge score and push model ( Mistral-7B-Instruct-v0.3 ) to [Huggingface hub]( https://huggingface.co/Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2) for deployment on GKE.
+Evaluate finetuned model on Rouge score and push model ( gemma-2-9b-it ) to [Huggingface hub]( https://huggingface.co/Prat/gemma-2-9b-it_ft_summarizer_v1) for deployment on GKE.
 
 
 ## Prerequisite
@@ -61,24 +61,24 @@ Evaluate finetuned model on Rouge score and push model ( Mistral-7B-Instruct-v0.
 ```
 
 - Deploy a vLLM to your cluster.
-deploy the vLLM container to serve ```Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2```
+deploy the vLLM container to serve ```Prat/gemma-2-9b-it_ft_summarizer_v1```
 
 1. Create the following vllm-3-7b-it.yaml manifest:
 ```yaml
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-    name: vllm-mistral-deployment
+    name: vllm-gemma-deployment
     spec:
     replicas: 1
     selector:
         matchLabels:
-        app: mistral-summarizer-server
+        app: gemma-summarizer-server
     template:
         metadata:
         labels:
-            app: mistral-summarizer-server
-            ai.gke.io/model: mistral-7B-instruct-v0.3
+            app: gemma-summarizer-server
+            ai.gke.io/model: gemma-2-9b-it
             ai.gke.io/inference-server: vllm
             examples.ai.gke.io/source: user-guide
         spec:
@@ -102,7 +102,7 @@ deploy the vLLM container to serve ```Prat/Dist_Mistral-7B-Instruct-v0.3_summari
             - --tensor-parallel-size=1
             env:
             - name: MODEL_ID
-            value: Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2
+            value: Prat/gemma-2-9b-it_ft_summarizer_v1
             - name: HUGGING_FACE_HUB_TOKEN
             valueFrom:
                 secretKeyRef:
@@ -125,7 +125,7 @@ deploy the vLLM container to serve ```Prat/Dist_Mistral-7B-Instruct-v0.3_summari
     name: llm-service
     spec:
     selector:
-        app: mistral-summarizer-server
+        app: gemma-summarizer-server
     type: ClusterIP
     ports:
         - protocol: TCP
@@ -142,7 +142,7 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 
 3. Wait for the Deployment to be available:
 ```shell 
-    kubectl wait --for=condition=Available --timeout=700s deployment/vllm-mistral-deployment
+    kubectl wait --for=condition=Available --timeout=700s deployment/vllm-gemma-deployment
 ```
 
 ## Serve the model
@@ -195,8 +195,8 @@ Kubernetes Deployment YAML file in detail.
 template:
   metadata:
     labels:
-      app: mistral-summarizer-server
-      ai.gke.io/model: mistral-7B-instruct-v0.3
+      app: gemma-summarizer-server
+      ai.gke.io/model: gemma-2-9b-it
       ai.gke.io/inference-server: vllm
       examples.ai.gke.io/source: user-guide
 ```
@@ -211,11 +211,11 @@ template:
    - **labels**:
    The `labels` field is a set of key-value pairs that are used to organize and select Kubernetes resources. Labels are used for various purposes, such as identifying and grouping resources, and for selecting resources using label selectors.
 
-   - **app: mistral-summarizer-server**:
-     This label indicates that the pod is part of the `mistral-summarizer-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
+   - **app: gemma-summarizer-server**:
+     This label indicates that the pod is part of the `gemma-summarizer-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
 
-   - **ai.gke.io/model: mistral-7B-instruct-v0.3**:
-     This label specifies the model being used by the pod. In this case, it is the `mistral-7B-instruct-v0.3` model. This label can be used to identify and manage pods that are running this specific model.
+   - **ai.gke.io/model: gemma-2-9b-it**:
+     This label specifies the model being used by the pod. In this case, it is the `gemma-2-9b-it` model. This label can be used to identify and manage pods that are running this specific model.
 
    - **ai.gke.io/inference-server: vllm**:
      This label indicates that the pod is using the `vllm` inference server. This label can be used to identify and manage pods that are running the vLLM inference server.
@@ -291,7 +291,7 @@ args:
 ```yaml
 env:
 - name: MODEL_ID
-  value: Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2
+  value: Prat/gemma-2-9b-it_ft_summarizer_v1
 - name: HUGGING_FACE_HUB_TOKEN
   valueFrom:
     secretKeyRef:
@@ -303,8 +303,8 @@ env:
 
   - **MODEL_ID**:
     - **name**: The name of the environment variable (`MODEL_ID`).
-    - **value**: The value of the environment variable (`Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2`).
-    - This environment variable is used to specify the model ID that the inference server should use. The value `Prat/Dist_Mistral-7B-Instruct-v0.3_summarizer_v2` is the identifier for the model.
+    - **value**: The value of the environment variable (`Prat/gemma-2-9b-it_ft_summarizer_v1`).
+    - This environment variable is used to specify the model ID that the inference server should use. The value `Prat/gemma-2-9b-it_ft_summarizer_v1` is the identifier for the model.
 
   - **HUGGING_FACE_HUB_TOKEN**:
     - **name**: The name of the environment variable (`HUGGING_FACE_HUB_TOKEN`).
@@ -376,7 +376,7 @@ metadata:
 ```yaml
 spec:
   selector:
-    app: mistral-summarizer-server
+    app: gemma-summarizer-server
   type: ClusterIP
   ports:
     - protocol: TCP
@@ -387,7 +387,7 @@ spec:
 - **spec**: Defines the desired state of the service, including the selector, type, and ports.
 
     - **selector**: Defines the label selector to identify the pods that the service will expose. The service will route traffic to the pods that match the specified labels.
-      - **app: mistral-summarizer-server**: The label selector that matches pods with the label `app: mistral-summarizer-server`.
+      - **app: gemma-summarizer-server**: The label selector that matches pods with the label `app: gemma-summarizer-server`.
 
     - **type**: Specifies the type of service. `ClusterIP` is the default type, which exposes the service on a cluster-internal IP. This means the service is only accessible within the cluster.
 
