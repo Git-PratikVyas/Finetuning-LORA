@@ -1,6 +1,6 @@
 
-# Distributed finetuning with LORA and serving model on GKE using vLLM
-- Finetuned pretrained decoder only model with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
+# Finetuned google/gemma-2-9b-it with LORA, serving on GKE using vLLM
+- Finetuned pretrained decoder only model google/gemma-2-9b-it with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
 - Used [Huggingface Accelerate](https://huggingface.co/docs/accelerate/index) for distributed training
 - Pushed finetuned model to [Huggingface Hub](https://huggingface.co/Prat/gemma-2-9b-it_ft_summarizer_v1) hub for deployment on GKE ( or anyother cloud ). 
 - Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
