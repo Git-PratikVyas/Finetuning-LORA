@@ -13,7 +13,7 @@
 4. [Serve the model](#serve-the-model)
 5. [GKE ```HPA``` for better latency and throughput](#GKE-HPA-for-better-latency-and-throughput)
 6. [Better latency and throughput using vLLM](#Better-latency-and-throughput-using-vLLM)
-7. [GPU utilization on GKE](gpu-utilization-on-gke)
+7. [GPU utilization on GKE](#gpu-utilization-on-gke)
 8. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
 
 ## Introduction
