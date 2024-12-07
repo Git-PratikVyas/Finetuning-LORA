@@ -12,7 +12,7 @@
 3. [Deployment on GKE](#deployment)
 4. [Serve the model](#serve-the-model)
 5. [GKE ```HPA``` for better latency and throughput](#GKE-HPA-for-better-latency-and-throughput)
-6. [Better latency and throughput using vLLM ```SpeculativeDecoding``` and ```Multi-Lora```](#Better-latency-and-throughput-using-vLLM-SpeculativeDecoding-and-Multi-Lora)
+6. [Better latency and throughput using vLLM](#Better-latency-and-throughput-using-vLLM)
 7. [GPU utilization on GKE](gpu-utilization-on-gke)
 8. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
 
@@ -185,7 +185,7 @@ There are three technique through which GPU can be utilised optimaly.
 2. Multi-instance GPU
 3. NVIDIA MPS
 
-## Better latency and throughput using vLLM SpeculativeDecoding and Multi-Lora
+## Better latency and throughput using vLLM
 
   **1. <ins>vLLM Speculative Decoding:<ins>**
 
