@@ -184,6 +184,42 @@ There are three technique through which GPU can be utilised optimaly.
 2. Multi-instance GPU
 3. NVIDIA MPS
 
+## Speculative Decoding in vLLM
+
+1. **Concept**:
+   - Speculative decoding addresses the inherent latency in traditional autoregressive decoding methods, where each token is generated sequentially based on all previous tokens. Instead, it allows for the simultaneous prediction of multiple tokens, thereby accelerating the inference process.
+
+2. **Mechanism**:
+   - In speculative decoding, a **draft model** (often smaller and faster) generates several potential future tokens in parallel during each decoding step. These tokens are then verified by the larger, more complex target model.
+   - This two-step process consists of:
+     - **Drafting**: The draft model quickly proposes multiple tokens.
+     - **Verification**: The target model evaluates these proposals and selects the valid ones based on its criteria.
+
+3. **Efficiency Gains**:
+   - By generating multiple tokens at once, speculative decoding can significantly reduce the time taken for each inference step. This is particularly beneficial in memory-bound scenarios where traditional approaches may struggle due to high memory read/write latencies.
+
+### Benefits of Speculative Decoding in vLLM
+
+1. **Increased Throughput**:
+   - Speculative decoding can improve throughput by allowing the model to process more tokens per forward pass compared to standard methods that generate one token at a time. This can lead to speedups of **3-6 times** depending on the implementation and model configuration.
+
+2. **Reduced Latency**:
+   - The technique minimizes inter-token latency by allowing multiple tokens to be processed simultaneously, which is crucial for applications requiring real-time responses.
+
+3. **Adaptability**:
+   - Speculative decoding can be adapted to various configurations, such as using different draft models or adjusting the number of speculative tokens generated based on system load and requirements.
+
+4. **Improved Resource Utilization**:
+   - By optimizing how models utilize GPU resources, speculative decoding enhances the overall efficiency of LLM inference, making it more feasible to deploy large models in production environments with limited computational resources.
+
+**Change deplymenr as below**
+```yaml
+args:
+            - --model=$(MODEL_ID)
+            - --tensor-parallel-size=1
+            - --num-speculative-tokens=5  # Specify the number of speculative tokens to generate
+          - --speculative-model=facebook/opt-125m  # Draft model for speculation
+```
 
 ## Appendix-Kubernetes Deployment Explanation
 
