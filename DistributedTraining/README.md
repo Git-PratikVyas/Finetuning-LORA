@@ -258,6 +258,38 @@ args:
   Guided decoding refers to the process of constraining the output of a language model based on predefined rules or structures. This can include options such as predefined choices, regex patterns, JSON schemas, or grammars.
   The primary goal of guided decoding is to enhance the quality of generated outputs by steering the model towards specific formats or types of responses. This is particularly useful in applications where structured data is required, such as generating JSON responses or SQL queries.
 
+  **5. <ins>Automatic Prefix Caching:<ins>**
+
+  Automatic Prefix Caching (APC) allows the vLLM engine to cache the KV cache of existing queries. When a new query shares the same prefix as previous queries, it can reuse the cached KV data, significantly reducing the computational overhead associated with processing these queries. Useful in long document queries or multi-round conversations in chat applications
+
+ **6. <ins>Prefill disaggregation:<ins>**
+
+  Prefill disaggregation involves executing the prefill and decoding processes on separate resources (e.g., different GPUs). This separation allows each phase to be optimized independently, improving overall system performance
+
+  Benefits of Disaggregation:
+  - Reduced Interference: By separating the two phases, each can operate without hindering the other’s performance.
+  - Tailored Resource Allocation: Resources can be allocated based on the specific needs of each phase, allowing for better optimization strategies.
+  Improved Throughput: Disaggregating these phases can lead to higher goodput (the number of successful requests handled per unit time) as both phases can be scaled independently.
+
+ **7. <ins>Pipeline Parallelism:<ins>**
+
+Pipeline parallelism involves splitting a model into multiple stages, where each stage corresponds to a subset of the model's layers. Each stage can be assigned to different GPUs or nodes, allowing for concurrent processing of requests.
+
+In a pipeline parallel setup, the model is divided into segments. For example, if a model has 28 layers and you have 4 GPUs, you might assign 7 layers to each GPU.
+As data flows through the model, each GPU processes its assigned layers while passing intermediate results to the next GPU in the pipeline. This allows for overlapping computation and communication.
+
+Pipeline parallelism can be combined with tensor parallelism to maximize resource utilization. Tensor parallelism splits the computations within a layer across multiple GPUs, while pipeline parallelism distributes entire layers across different GPUs.
+
+Benefits of Pipeline Parallelism
+- Increased Throughput:
+By allowing multiple requests to be processed simultaneously across different stages of the model, pipeline parallelism can significantly increase throughput compared to traditional single-device setups.
+- Reduced Latency for Batch Processing:
+In scenarios where batch processing is common, pipeline parallelism helps minimize latency by keeping all GPUs busy and reducing idle time.
+- Scalability:
+This approach makes it feasible to work with larger models that exceed the memory capacity of individual GPUs by distributing them across multiple devices.
+Optimized Resource Allocation:
+Each GPU can be optimized for the specific layer it processes, allowing for better performance tuning based on the characteristics of each layer.
+
 ## Appendix-Kubernetes Deployment Explanation
 
 Kubernetes Deployment YAML file in detail.
