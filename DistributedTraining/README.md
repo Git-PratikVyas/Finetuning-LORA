@@ -191,30 +191,30 @@ There are three technique through which GPU can be utilised optimaly.
    vLLM Speculative Decoding for better latency and throughput during inference
    Speculative decoding addresses the inherent latency in traditional autoregressive decoding methods, where each token is generated sequentially based on all previous tokens. Instead, it allows for the simultaneous prediction of multiple tokens, thereby accelerating the inference process.
 
-- **Mechanism**:
-   - In speculative decoding, a **draft model** (often smaller and faster) generates several potential future tokens in parallel during each decoding step. These tokens are then verified by the larger, more complex target model.
-   - This two-step process consists of:
-     - **Drafting**: The draft model quickly proposes multiple tokens.
-     - **Verification**: The target model evaluates these proposals and selects the valid ones based on its criteria.
+  - Mechanism:
+    - In speculative decoding, a **draft model** (often smaller and faster) generates several potential future tokens in parallel during each decoding step. These tokens are then verified by the larger, more complex target model.
+    - This two-step process consists of:
+      - **Drafting**: The draft model quickly proposes multiple tokens.
+      - **Verification**: The target model evaluates these proposals and selects the valid ones based on its criteria.
 
-- **Efficiency Gains**:
-   - By generating multiple tokens at once, speculative decoding can significantly reduce the time taken for each inference step. This is particularly beneficial in memory-bound scenarios where traditional approaches may struggle due to high memory read/write latencies.
+  - Efficiency Gains:
+    - By generating multiple tokens at once, speculative decoding can significantly reduce the time taken for each inference step. This is particularly beneficial in memory-bound scenarios where traditional approaches may struggle due to high memory read/write latencies.
 
-**Benefits of Speculative Decoding in vLLM**
+  Benefits of Speculative Decoding in vLLM
 
-- **Increased Throughput**:
-   Speculative decoding can improve throughput by allowing the model to process more tokens per forward pass compared to standard methods that generate one token at a time. This can lead to speedups of **3-6 times** depending on the implementation and model configuration.
+  - Increased Throughput:
+    Speculative decoding can improve throughput by allowing the model to process more tokens per forward pass compared to standard methods that generate one token at a time. This can lead to speedups of **3-6 times** depending on the implementation and model configuration.
 
-- **Reduced Latency**:
-   The technique minimizes inter-token latency by allowing multiple tokens to be processed simultaneously, which is crucial for applications requiring real-time responses.
+  - Reduced Latency:
+    The technique minimizes inter-token latency by allowing multiple tokens to be processed simultaneously, which is crucial for applications requiring real-time responses.
 
-- **Adaptability**:
-   Speculative decoding can be adapted to various configurations, such as using different draft models or adjusting the number of speculative tokens generated based on system load and requirements.
+  - Adaptability:
+    Speculative decoding can be adapted to various configurations, such as using different draft models or adjusting the number of speculative tokens generated based on system load and requirements.
 
-- **Improved Resource Utilization**:
-   By optimizing how models utilize GPU resources, speculative decoding enhances the overall efficiency of LLM inference, making it more feasible to deploy large models in production environments with limited computational resources.
+  - Improved Resource Utilization:
+    By optimizing how models utilize GPU resources, speculative decoding enhances the overall efficiency of LLM inference, making it more feasible to deploy large models in production environments with limited computational resources.
 
-**Change deployment as below**
+  - Change deployment as below
 ```yaml
 args:
             - --model=$(MODEL_ID)
@@ -224,9 +224,9 @@ args:
 ```
 
 2. **Multiple LoRA (Low-Rank Adaptation) adapters with vLLM** 
-allows for efficient specialization of large language models (LLMs) for various tasks without the need for unloading and reloading adapters, which can degrade user experience. Here’s a comprehensive guide on how to implement multi-LoRA functionality in vLLM based on the search results.
-- Multi-LoRA enables the simultaneous use of different LoRA adapters, allowing a single model to handle various tasks (e.g., translation, classification) without noticeable delays between requests.
-- This approach optimizes resource utilization and improves response times, making it suitable for applications needing rapid task switching.
+  Allows for efficient specialization of large language models (LLMs) for various tasks without the need for unloading and reloading adapters, which can degrade user experience. Here’s a comprehensive guide on how to implement multi-LoRA functionality in vLLM based on the search results.
+  - Multi-LoRA enables the simultaneous use of different LoRA adapters, allowing a single model to handle various tasks (e.g., translation, classification) without noticeable delays between requests.
+  - This approach optimizes resource utilization and improves response times, making it suitable for applications needing rapid task switching.
 
 
 ## Appendix-Kubernetes Deployment Explanation
