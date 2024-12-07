@@ -187,7 +187,7 @@ There are three technique through which GPU can be utilised optimaly.
 
 ## Better latency and throughput during inference using vLLM
 
-  **```1. vLLM Speculative Decoding```**
+  **<u>1. vLLM Speculative Decoding</u>**
 
   vLLM Speculative Decoding for better latency and throughput during inference
   Speculative decoding addresses the inherent latency in traditional autoregressive decoding methods, where each token is generated sequentially based on all previous tokens. Instead, it allows for the simultaneous prediction of multiple tokens, thereby accelerating the inference process.
@@ -225,7 +225,7 @@ args:
             - --speculative-model=facebook/opt-125m  # Draft model for speculation
 ```
 
-  **```2. Multiple LoRA (Low-Rank Adaptation) adapters with vLLM```**
+  **<ins>2. Multiple LoRA (Low-Rank Adaptation) adapters with vLLM</ins>**
 
   Allows for efficient specialization of large language models (LLMs) for various tasks without the need for unloading and reloading adapters, which can degrade user experience. Here’s a comprehensive guide on how to implement multi-LoRA functionality in vLLM based on the search results.
   - Multi-LoRA enables the simultaneous use of different LoRA adapters, allowing a single model to handle various tasks (e.g., translation, classification) without noticeable delays between requests.
