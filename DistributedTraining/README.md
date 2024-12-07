@@ -11,8 +11,8 @@
 2. [Prerequisite](#prerequisite)
 3. [Deployment on GKE](#deployment)
 4. [Serve the model](#serve-the-model)
-5. [GKE-HPA for better latency and throughput](#GKE-HPA-for-better-latency-and-throughput)
-6. [vLLM Speculative Decoding for better latency and throughput during inference](#vLLM-Speculative-Decoding-for-better-latency-and-throughput-during-inference)
+5. [GKE ```HPA``` for better latency and throughput](#GKE-HPA-for-better-latency-and-throughput)
+6. [Better latency and throughput using vLLM ```SpeculativeDecoding``` and ```Multi-Lora```](#Better-latency-and-throughput-using-vLLM-SpeculativeDecoding-and-Multi-Lora)
 7. [GPU utilization on GKE](gpu-utilization-on-gke)
 8. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
 
@@ -171,7 +171,7 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 2. you can also create UI to interact with the model.
 
 
-## GKE-HPA for better latency and throughput
+## GKE HPA for better latency and throughput
 Use [Horizontal Pod Scaling (HPS)](https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler) to improve latency and throughput.
 Important matrices for HPS are
 1. Queue Size: First option to choose if latency target can be met with queue size autoscaling.
@@ -185,9 +185,9 @@ There are three technique through which GPU can be utilised optimaly.
 2. Multi-instance GPU
 3. NVIDIA MPS
 
-## Better latency and throughput during inference using vLLM
+## Better latency and throughput using vLLM SpeculativeDecoding and Multi-Lora
 
-  **<u>1. vLLM Speculative Decoding</u>**
+  **1.<ins>vLLM Speculative Decoding:<ins>**
 
   vLLM Speculative Decoding for better latency and throughput during inference
   Speculative decoding addresses the inherent latency in traditional autoregressive decoding methods, where each token is generated sequentially based on all previous tokens. Instead, it allows for the simultaneous prediction of multiple tokens, thereby accelerating the inference process.
@@ -225,7 +225,7 @@ args:
             - --speculative-model=facebook/opt-125m  # Draft model for speculation
 ```
 
-  **<ins>2. Multiple LoRA (Low-Rank Adaptation) adapters with vLLM</ins>**
+  **2. <ins>Multiple LoRA (Low-Rank Adaptation) adapters with vLLM:</ins>**
 
   Allows for efficient specialization of large language models (LLMs) for various tasks without the need for unloading and reloading adapters, which can degrade user experience. Here’s a comprehensive guide on how to implement multi-LoRA functionality in vLLM based on the search results.
   - Multi-LoRA enables the simultaneous use of different LoRA adapters, allowing a single model to handle various tasks (e.g., translation, classification) without noticeable delays between requests.
