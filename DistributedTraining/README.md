@@ -187,7 +187,7 @@ There are three technique through which GPU can be utilised optimaly.
 
 ## Better latency and throughput during inference using vLLM
 
- ### 1. vLLM Speculative Decoding
+  **1. vLLM Speculative Decoding**
 
       vLLM Speculative Decoding for better latency and throughput during inference
       Speculative decoding addresses the inherent latency in traditional autoregressive decoding methods, where each token is generated sequentially based on all previous tokens. Instead, it allows for the simultaneous prediction of multiple tokens, thereby accelerating the inference process.
@@ -216,15 +216,16 @@ There are three technique through which GPU can be utilised optimaly.
         By optimizing how models utilize GPU resources, speculative decoding enhances the overall efficiency of LLM inference, making it more feasible to deploy large models in production environments with limited computational resources.
 
       - Change deployment as below
-  ```yaml
-  args:
-              - --model=$(MODEL_ID)
-              - --tensor-parallel-size=1
-              - --num-speculative-tokens=5  # Specify the number of speculative tokens to generate
-              - --speculative-model=facebook/opt-125m  # Draft model for speculation
-  ```
 
- ### 2. Multiple LoRA (Low-Rank Adaptation) adapters with vLLM
+```yaml
+args:
+            - --model=$(MODEL_ID)
+            - --tensor-parallel-size=1
+            - --num-speculative-tokens=5  # Specify the number of speculative tokens to generate
+            - --speculative-model=facebook/opt-125m  # Draft model for speculation
+```
+
+  **2. Multiple LoRA (Low-Rank Adaptation) adapters with vLLM**
 
       Allows for efficient specialization of large language models (LLMs) for various tasks without the need for unloading and reloading adapters, which can degrade user experience. Here’s a comprehensive guide on how to implement multi-LoRA functionality in vLLM based on the search results.
       - Multi-LoRA enables the simultaneous use of different LoRA adapters, allowing a single model to handle various tasks (e.g., translation, classification) without noticeable delays between requests.
