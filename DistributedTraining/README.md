@@ -216,13 +216,13 @@ There are three technique through which GPU can be utilised optimaly.
         By optimizing how models utilize GPU resources, speculative decoding enhances the overall efficiency of LLM inference, making it more feasible to deploy large models in production environments with limited computational resources.
 
       - Change deployment as below
-```yaml
-args:
-            - --model=$(MODEL_ID)
-            - --tensor-parallel-size=1
-            - --num-speculative-tokens=5  # Specify the number of speculative tokens to generate
-            - --speculative-model=facebook/opt-125m  # Draft model for speculation
-```
+  ```yaml
+  args:
+              - --model=$(MODEL_ID)
+              - --tensor-parallel-size=1
+              - --num-speculative-tokens=5  # Specify the number of speculative tokens to generate
+              - --speculative-model=facebook/opt-125m  # Draft model for speculation
+  ```
 
  ### 2. Multiple LoRA (Low-Rank Adaptation) adapters with vLLM
 
