@@ -187,7 +187,7 @@ There are three technique through which GPU can be utilised optimaly.
 
 ## Better latency and throughput using vLLM SpeculativeDecoding and Multi-Lora
 
-  **1.<ins>vLLM Speculative Decoding:<ins>**
+  **1. <ins>vLLM Speculative Decoding:<ins>**
 
   vLLM Speculative Decoding for better latency and throughput during inference
   Speculative decoding addresses the inherent latency in traditional autoregressive decoding methods, where each token is generated sequentially based on all previous tokens. Instead, it allows for the simultaneous prediction of multiple tokens, thereby accelerating the inference process.
@@ -231,7 +231,7 @@ args:
   - Multi-LoRA enables the simultaneous use of different LoRA adapters, allowing a single model to handle various tasks (e.g., translation, classification) without noticeable delays between requests.
   - This approach optimizes resource utilization and improves response times, making it suitable for applications needing rapid task switching.
 
- **3.<ins>Chunked prefill:<ins>**
+ **3. <ins>Chunked prefill:<ins>**
 
   Chunked prefill allows large input prompts (prefills) to be divided into smaller chunks. These chunks can then be batched together with decode requests, which improves overall throughput and reduces latency during inference.
 
@@ -253,7 +253,10 @@ args:
   - Flexibility:
     - Chunked prefill can adapt to varying input sizes and workloads, making it suitable for applications with diverse requirements, such as summarization or question-answering tasks.
 
+ **4. <ins>Guided Decoding:<ins>**
 
+  Guided decoding refers to the process of constraining the output of a language model based on predefined rules or structures. This can include options such as predefined choices, regex patterns, JSON schemas, or grammars.
+  The primary goal of guided decoding is to enhance the quality of generated outputs by steering the model towards specific formats or types of responses. This is particularly useful in applications where structured data is required, such as generating JSON responses or SQL queries.
 
 ## Appendix-Kubernetes Deployment Explanation
 
