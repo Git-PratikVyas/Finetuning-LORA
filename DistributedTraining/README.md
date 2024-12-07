@@ -198,7 +198,7 @@ There are three technique through which GPU can be utilised optimaly.
 3. **Efficiency Gains**:
    - By generating multiple tokens at once, speculative decoding can significantly reduce the time taken for each inference step. This is particularly beneficial in memory-bound scenarios where traditional approaches may struggle due to high memory read/write latencies.
 
-### Benefits of Speculative Decoding in vLLM
+**Benefits of Speculative Decoding in vLLM**
 
 1. **Increased Throughput**:
    - Speculative decoding can improve throughput by allowing the model to process more tokens per forward pass compared to standard methods that generate one token at a time. This can lead to speedups of **3-6 times** depending on the implementation and model configuration.
@@ -212,13 +212,13 @@ There are three technique through which GPU can be utilised optimaly.
 4. **Improved Resource Utilization**:
    - By optimizing how models utilize GPU resources, speculative decoding enhances the overall efficiency of LLM inference, making it more feasible to deploy large models in production environments with limited computational resources.
 
-**Change deplymenr as below**
+**Change deployment as below**
 ```yaml
 args:
             - --model=$(MODEL_ID)
             - --tensor-parallel-size=1
             - --num-speculative-tokens=5  # Specify the number of speculative tokens to generate
-          - --speculative-model=facebook/opt-125m  # Draft model for speculation
+            - --speculative-model=facebook/opt-125m  # Draft model for speculation
 ```
 
 ## Appendix-Kubernetes Deployment Explanation
