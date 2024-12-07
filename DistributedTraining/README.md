@@ -231,6 +231,29 @@ args:
   - Multi-LoRA enables the simultaneous use of different LoRA adapters, allowing a single model to handle various tasks (e.g., translation, classification) without noticeable delays between requests.
   - This approach optimizes resource utilization and improves response times, making it suitable for applications needing rapid task switching.
 
+ **3.<ins>Chunked prefill:<ins>**
+
+    Chunked prefill allows large input prompts (prefills) to be divided into smaller chunks. These chunks can then be batched together with decode requests, which improves overall throughput and reduces latency during inference.
+
+  - Process:
+    - In traditional inference, the model processes all tokens sequentially, which can lead to inefficiencies, especially when dealing with long prompts.
+    - With chunked prefill, vLLM can group multiple prefill tokens together and prioritize decode requests. This means that while the model is handling prefill requests, it can also process decode requests simultaneously.
+
+  Benefits of Chunked Prefill
+
+  - Improved Inter-Token Latency (ITL):
+    By batching prefill and decode requests, chunked prefill reduces the time between generating tokens (inter-token latency). This is particularly beneficial in scenarios where quick responses are required.
+
+  - Better GPU Utilization:
+    The technique allows for more efficient use of GPU resources by overlapping compute-bound (prefill) and memory-bound (decode) operations. This leads to better overall performance and throughput.
+
+  - Tuning Performance:
+    - Users can adjust the `max_num_batched_tokens` parameter to optimize performance based on their specific workloads. The default value is set to 512, but increasing it can improve throughput at the cost of slightly higher latency for the first token generated.
+
+  - Flexibility:
+    - Chunked prefill can adapt to varying input sizes and workloads, making it suitable for applications with diverse requirements, such as summarization or question-answering tasks.
+
+
 
 ## Appendix-Kubernetes Deployment Explanation
 
