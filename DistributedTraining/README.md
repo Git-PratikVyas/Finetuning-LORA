@@ -233,7 +233,7 @@ args:
 
  **3.<ins>Chunked prefill:<ins>**
 
-    Chunked prefill allows large input prompts (prefills) to be divided into smaller chunks. These chunks can then be batched together with decode requests, which improves overall throughput and reduces latency during inference.
+  Chunked prefill allows large input prompts (prefills) to be divided into smaller chunks. These chunks can then be batched together with decode requests, which improves overall throughput and reduces latency during inference.
 
   - Process:
     - In traditional inference, the model processes all tokens sequentially, which can lead to inefficiencies, especially when dealing with long prompts.
