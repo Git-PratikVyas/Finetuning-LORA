@@ -11,9 +11,10 @@
 2. [Prerequisite](#prerequisite)
 3. [Deployment on GKE](#deployment)
 4. [Serve the model](#serve-the-model)
-5. [Autoscaling for better Latency and Throughput on GKE](#autoscaling-for-better-latency-and-throughput-on-gke)
-6. [GPU utilization on GKE](gpu-utilization-on-gke)
-7. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
+5. [GKE-HPA for better latency and throughput](#GKE-HPA-for-better-latency-and-throughput)
+6. [vLLM Speculative Decoding for better latency and throughput during inference](#vLLM-Speculative-Decoding-for-better-latency-and-throughput-during-inference)
+7. [GPU utilization on GKE](gpu-utilization-on-gke)
+8. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
 
 ## Introduction
 Distributed finetuned pretrained model
@@ -170,7 +171,7 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 2. you can also create UI to interact with the model.
 
 
-## Autoscaling for better Latency and Throughput on GKE
+## GKE-HPA for better latency and throughput
 Use [Horizontal Pod Scaling (HPS)](https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler) to improve latency and throughput.
 Important matrices for HPS are
 1. Queue Size: First option to choose if latency target can be met with queue size autoscaling.
@@ -184,18 +185,16 @@ There are three technique through which GPU can be utilised optimaly.
 2. Multi-instance GPU
 3. NVIDIA MPS
 
-## Speculative Decoding in vLLM
+## vLLM Speculative Decoding for better latency and throughput during inference
+   Speculative decoding addresses the inherent latency in traditional autoregressive decoding methods, where each token is generated sequentially based on all previous tokens. Instead, it allows for the simultaneous prediction of multiple tokens, thereby accelerating the inference process.
 
-1. **Concept**:
-   - Speculative decoding addresses the inherent latency in traditional autoregressive decoding methods, where each token is generated sequentially based on all previous tokens. Instead, it allows for the simultaneous prediction of multiple tokens, thereby accelerating the inference process.
-
-2. **Mechanism**:
+- **Mechanism**:
    - In speculative decoding, a **draft model** (often smaller and faster) generates several potential future tokens in parallel during each decoding step. These tokens are then verified by the larger, more complex target model.
    - This two-step process consists of:
      - **Drafting**: The draft model quickly proposes multiple tokens.
      - **Verification**: The target model evaluates these proposals and selects the valid ones based on its criteria.
 
-3. **Efficiency Gains**:
+- **Efficiency Gains**:
    - By generating multiple tokens at once, speculative decoding can significantly reduce the time taken for each inference step. This is particularly beneficial in memory-bound scenarios where traditional approaches may struggle due to high memory read/write latencies.
 
 **Benefits of Speculative Decoding in vLLM**
