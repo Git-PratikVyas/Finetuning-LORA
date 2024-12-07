@@ -1,9 +1,9 @@
 
-# Finetuning with LORA and serving model on GKE using vLLM
-- Finetuning pretrained decoder only model with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
-- Push finetuned model to [Huggingface](https://huggingface.co/) hub for deployment on GKE ( or anyother cloud ). 
+# Finetuned google/gemma-2-9b-it with LORA, serving on GKE using vLLM
+- Finetuned pretrained decoder only model google/gemma-2-9b-it with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
+- Used [Huggingface Accelerate](https://huggingface.co/docs/accelerate/index) for distributed training
+- Pushed finetuned model to [Huggingface Hub](https://huggingface.co/Prat/gemma-2-9b-it_ft_summarizer_v1) hub for deployment on GKE ( or anyother cloud ). 
 - Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
-- For **Distributed Finetuning**, Please check folder [DistributedTraining](https://github.com/Git-PratikVyas/Finetuning-LORA/tree/main/DistributedTraining) 
 
 # Table of Contents
 
@@ -11,16 +11,18 @@
 2. [Prerequisite](#prerequisite)
 3. [Deployment on GKE](#deployment)
 4. [Serve the model](#serve-the-model)
-5. [Autoscaling for better Latency and Throughput on GKE](#autoscaling-for-better-latency-and-throughput-on-gke)
-6. [GPU utilization on GKE](gpu-utilization-on-gke)
-7. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
+5. [GKE ```HPA``` for better latency and throughput](#GKE-HPA-for-better-latency-and-throughput)
+6. [Better latency and throughput using vLLM](#Better-latency-and-throughput-using-vLLM)
+7. [GPU utilization on GKE](gpu-utilization-on-gke)
+8. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
 
 ## Introduction
-Finetuned two pretrained models 
-[Mistral-7B-Instruct-v0.3]( https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3 ) and [Llama-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct ) on [Samsum]( https://paperswithcode.com/paper/samsum-corpus-a-human-annotated-dialogue-1 ) database.
+Distributed finetuned pretrained model
+[google/gemma-2-9b-it]( https://huggingface.co/google/gemma-2-9b-it ) on [Samsum]( https://paperswithcode.com/paper/samsum-corpus-a-human-annotated-dialogue-1 ) database using [HuggingFace Accelerate](https://huggingface.co/docs/accelerate/index).
+
 Integrate and publish all training/eval matrices to [Weights & Biases (W&B)]( https://wandb.ai/home ) for tracking, monitoring, and collaboration.
 
-Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-Instruct-v0.3 ) to [Huggingface hub]( https://huggingface.co/Prat/Mistral-7B-Instruct-v0.3_summarizer_v1 ) for deployment on GKE.
+Evaluate finetuned model on Rouge score and push model ( gemma-2-9b-it ) to [Huggingface hub]( https://huggingface.co/Prat/gemma-2-9b-it_ft_summarizer_v1) for deployment on GKE.
 
 
 ## Prerequisite
@@ -60,24 +62,24 @@ Evaluate finetuned model on Rouge score and publish better model ( Mistral-7B-In
 ```
 
 - Deploy a vLLM to your cluster.
-deploy the vLLM container to serve ```Prat/Mistral-7B-Instruct-v0.3_summarizer_v1```
+deploy the vLLM container to serve ```Prat/gemma-2-9b-it_ft_summarizer_v1```
 
 1. Create the following vllm-3-7b-it.yaml manifest:
 ```yaml
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-    name: vllm-mistral-deployment
+    name: vllm-gemma-deployment
     spec:
     replicas: 1
     selector:
         matchLabels:
-        app: mistral-summarizer-server
+        app: gemma-summarizer-server
     template:
         metadata:
         labels:
-            app: mistral-summarizer-server
-            ai.gke.io/model: mistral-7B-instruct-v0.3
+            app: gemma-summarizer-server
+            ai.gke.io/model: gemma-2-9b-it
             ai.gke.io/inference-server: vllm
             examples.ai.gke.io/source: user-guide
         spec:
@@ -101,7 +103,7 @@ deploy the vLLM container to serve ```Prat/Mistral-7B-Instruct-v0.3_summarizer_v
             - --tensor-parallel-size=1
             env:
             - name: MODEL_ID
-            value: Prat/Mistral-7B-Instruct-v0.3_summarizer_v1
+            value: Prat/gemma-2-9b-it_ft_summarizer_v1
             - name: HUGGING_FACE_HUB_TOKEN
             valueFrom:
                 secretKeyRef:
@@ -124,7 +126,7 @@ deploy the vLLM container to serve ```Prat/Mistral-7B-Instruct-v0.3_summarizer_v
     name: llm-service
     spec:
     selector:
-        app: mistral-summarizer-server
+        app: gemma-summarizer-server
     type: ClusterIP
     ports:
         - protocol: TCP
@@ -141,7 +143,7 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 
 3. Wait for the Deployment to be available:
 ```shell 
-    kubectl wait --for=condition=Available --timeout=700s deployment/vllm-mistral-deployment
+    kubectl wait --for=condition=Available --timeout=700s deployment/vllm-gemma-deployment
 ```
 
 ## Serve the model
@@ -169,7 +171,7 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 2. you can also create UI to interact with the model.
 
 
-## Autoscaling for better Latency and Throughput on GKE
+## GKE HPA for better latency and throughput
 Use [Horizontal Pod Scaling (HPS)](https://cloud.google.com/kubernetes-engine/docs/concepts/horizontalpodautoscaler) to improve latency and throughput.
 Important matrices for HPS are
 1. Queue Size: First option to choose if latency target can be met with queue size autoscaling.
@@ -183,6 +185,110 @@ There are three technique through which GPU can be utilised optimaly.
 2. Multi-instance GPU
 3. NVIDIA MPS
 
+## Better latency and throughput using vLLM
+
+  **1. <ins>vLLM Speculative Decoding:<ins>**
+
+  vLLM Speculative Decoding for better latency and throughput during inference
+  Speculative decoding addresses the inherent latency in traditional autoregressive decoding methods, where each token is generated sequentially based on all previous tokens. Instead, it allows for the simultaneous prediction of multiple tokens, thereby accelerating the inference process.
+
+  - Mechanism:
+    - In speculative decoding, a **draft model** (often smaller and faster) generates several potential future tokens in parallel during each decoding step. These tokens are then verified by the larger, more complex target model.
+    - This two-step process consists of:
+      - **Drafting**: The draft model quickly proposes multiple tokens.
+      - **Verification**: The target model evaluates these proposals and selects the valid ones based on its criteria.
+
+  - Efficiency Gains:
+    - By generating multiple tokens at once, speculative decoding can significantly reduce the time taken for each inference step. This is particularly beneficial in memory-bound scenarios where traditional approaches may struggle due to high memory read/write latencies.
+
+  Benefits of Speculative Decoding in vLLM
+
+  - Increased Throughput:
+    Speculative decoding can improve throughput by allowing the model to process more tokens per forward pass compared to standard methods that generate one token at a time. This can lead to speedups of **3-6 times** depending on the implementation and model configuration.
+
+  - Reduced Latency:
+    The technique minimizes inter-token latency by allowing multiple tokens to be processed simultaneously, which is crucial for applications requiring real-time responses.
+
+  - Adaptability:
+    Speculative decoding can be adapted to various configurations, such as using different draft models or adjusting the number of speculative tokens generated based on system load and requirements.
+
+  - Improved Resource Utilization:
+    By optimizing how models utilize GPU resources, speculative decoding enhances the overall efficiency of LLM inference, making it more feasible to deploy large models in production environments with limited computational resources.
+
+  - Change deployment as below
+
+```yaml
+args:
+            - --model=$(MODEL_ID)
+            - --tensor-parallel-size=1
+            - --num-speculative-tokens=5  # Specify the number of speculative tokens to generate
+            - --speculative-model=facebook/opt-125m  # Draft model for speculation
+```
+
+  **2. <ins>Multiple LoRA (Low-Rank Adaptation) adapters with vLLM:</ins>**
+
+  Allows for efficient specialization of large language models (LLMs) for various tasks without the need for unloading and reloading adapters, which can degrade user experience. Here’s a comprehensive guide on how to implement multi-LoRA functionality in vLLM based on the search results.
+  - Multi-LoRA enables the simultaneous use of different LoRA adapters, allowing a single model to handle various tasks (e.g., translation, classification) without noticeable delays between requests.
+  - This approach optimizes resource utilization and improves response times, making it suitable for applications needing rapid task switching.
+
+ **3. <ins>Chunked prefill:<ins>**
+
+  Chunked prefill allows large input prompts (prefills) to be divided into smaller chunks. These chunks can then be batched together with decode requests, which improves overall throughput and reduces latency during inference.
+
+  - Process:
+    - In traditional inference, the model processes all tokens sequentially, which can lead to inefficiencies, especially when dealing with long prompts.
+    - With chunked prefill, vLLM can group multiple prefill tokens together and prioritize decode requests. This means that while the model is handling prefill requests, it can also process decode requests simultaneously.
+
+  Benefits of Chunked Prefill
+
+  - Improved Inter-Token Latency (ITL):
+    By batching prefill and decode requests, chunked prefill reduces the time between generating tokens (inter-token latency). This is particularly beneficial in scenarios where quick responses are required.
+
+  - Better GPU Utilization:
+    The technique allows for more efficient use of GPU resources by overlapping compute-bound (prefill) and memory-bound (decode) operations. This leads to better overall performance and throughput.
+
+  - Tuning Performance:
+    - Users can adjust the `max_num_batched_tokens` parameter to optimize performance based on their specific workloads. The default value is set to 512, but increasing it can improve throughput at the cost of slightly higher latency for the first token generated.
+
+  - Flexibility:
+    - Chunked prefill can adapt to varying input sizes and workloads, making it suitable for applications with diverse requirements, such as summarization or question-answering tasks.
+
+ **4. <ins>Guided Decoding:<ins>**
+
+  Guided decoding refers to the process of constraining the output of a language model based on predefined rules or structures. This can include options such as predefined choices, regex patterns, JSON schemas, or grammars.
+  The primary goal of guided decoding is to enhance the quality of generated outputs by steering the model towards specific formats or types of responses. This is particularly useful in applications where structured data is required, such as generating JSON responses or SQL queries.
+
+  **5. <ins>Automatic Prefix Caching:<ins>**
+
+  Automatic Prefix Caching (APC) allows the vLLM engine to cache the KV cache of existing queries. When a new query shares the same prefix as previous queries, it can reuse the cached KV data, significantly reducing the computational overhead associated with processing these queries. Useful in long document queries or multi-round conversations in chat applications
+
+ **6. <ins>Prefill disaggregation:<ins>**
+
+  Prefill disaggregation involves executing the prefill and decoding processes on separate resources (e.g., different GPUs). This separation allows each phase to be optimized independently, improving overall system performance
+
+  Benefits of Disaggregation:
+  - Reduced Interference: By separating the two phases, each can operate without hindering the other’s performance.
+  - Tailored Resource Allocation: Resources can be allocated based on the specific needs of each phase, allowing for better optimization strategies.
+  Improved Throughput: Disaggregating these phases can lead to higher goodput (the number of successful requests handled per unit time) as both phases can be scaled independently.
+
+ **7. <ins>Pipeline Parallelism:<ins>**
+
+Pipeline parallelism involves splitting a model into multiple stages, where each stage corresponds to a subset of the model's layers. Each stage can be assigned to different GPUs or nodes, allowing for concurrent processing of requests.
+
+In a pipeline parallel setup, the model is divided into segments. For example, if a model has 28 layers and you have 4 GPUs, you might assign 7 layers to each GPU.
+As data flows through the model, each GPU processes its assigned layers while passing intermediate results to the next GPU in the pipeline. This allows for overlapping computation and communication.
+
+Pipeline parallelism can be combined with tensor parallelism to maximize resource utilization. Tensor parallelism splits the computations within a layer across multiple GPUs, while pipeline parallelism distributes entire layers across different GPUs.
+
+Benefits of Pipeline Parallelism
+- Increased Throughput:
+By allowing multiple requests to be processed simultaneously across different stages of the model, pipeline parallelism can significantly increase throughput compared to traditional single-device setups.
+- Reduced Latency for Batch Processing:
+In scenarios where batch processing is common, pipeline parallelism helps minimize latency by keeping all GPUs busy and reducing idle time.
+- Scalability:
+This approach makes it feasible to work with larger models that exceed the memory capacity of individual GPUs by distributing them across multiple devices.
+Optimized Resource Allocation:
+Each GPU can be optimized for the specific layer it processes, allowing for better performance tuning based on the characteristics of each layer.
 
 ## Appendix-Kubernetes Deployment Explanation
 
@@ -194,8 +300,8 @@ Kubernetes Deployment YAML file in detail.
 template:
   metadata:
     labels:
-      app: mistral-summarizer-server
-      ai.gke.io/model: mistral-7B-instruct-v0.3
+      app: gemma-summarizer-server
+      ai.gke.io/model: gemma-2-9b-it
       ai.gke.io/inference-server: vllm
       examples.ai.gke.io/source: user-guide
 ```
@@ -210,11 +316,11 @@ template:
    - **labels**:
    The `labels` field is a set of key-value pairs that are used to organize and select Kubernetes resources. Labels are used for various purposes, such as identifying and grouping resources, and for selecting resources using label selectors.
 
-   - **app: mistral-summarizer-server**:
-     This label indicates that the pod is part of the `mistral-summarizer-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
+   - **app: gemma-summarizer-server**:
+     This label indicates that the pod is part of the `gemma-summarizer-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
 
-   - **ai.gke.io/model: mistral-7B-instruct-v0.3**:
-     This label specifies the model being used by the pod. In this case, it is the `mistral-7B-instruct-v0.3` model. This label can be used to identify and manage pods that are running this specific model.
+   - **ai.gke.io/model: gemma-2-9b-it**:
+     This label specifies the model being used by the pod. In this case, it is the `gemma-2-9b-it` model. This label can be used to identify and manage pods that are running this specific model.
 
    - **ai.gke.io/inference-server: vllm**:
      This label indicates that the pod is using the `vllm` inference server. This label can be used to identify and manage pods that are running the vLLM inference server.
@@ -290,7 +396,7 @@ args:
 ```yaml
 env:
 - name: MODEL_ID
-  value: Prat/Mistral-7B-Instruct-v0.3_summarizer_v1
+  value: Prat/gemma-2-9b-it_ft_summarizer_v1
 - name: HUGGING_FACE_HUB_TOKEN
   valueFrom:
     secretKeyRef:
@@ -302,8 +408,8 @@ env:
 
   - **MODEL_ID**:
     - **name**: The name of the environment variable (`MODEL_ID`).
-    - **value**: The value of the environment variable (`Prat/Mistral-7B-Instruct-v0.3_summarizer_v1`).
-    - This environment variable is used to specify the model ID that the inference server should use. The value `Prat/Mistral-7B-Instruct-v0.3_summarizer_v1` is the identifier for the model.
+    - **value**: The value of the environment variable (`Prat/gemma-2-9b-it_ft_summarizer_v1`).
+    - This environment variable is used to specify the model ID that the inference server should use. The value `Prat/gemma-2-9b-it_ft_summarizer_v1` is the identifier for the model.
 
   - **HUGGING_FACE_HUB_TOKEN**:
     - **name**: The name of the environment variable (`HUGGING_FACE_HUB_TOKEN`).
@@ -375,7 +481,7 @@ metadata:
 ```yaml
 spec:
   selector:
-    app: mistral-summarizer-server
+    app: gemma-summarizer-server
   type: ClusterIP
   ports:
     - protocol: TCP
@@ -386,7 +492,7 @@ spec:
 - **spec**: Defines the desired state of the service, including the selector, type, and ports.
 
     - **selector**: Defines the label selector to identify the pods that the service will expose. The service will route traffic to the pods that match the specified labels.
-      - **app: mistral-summarizer-server**: The label selector that matches pods with the label `app: mistral-summarizer-server`.
+      - **app: gemma-summarizer-server**: The label selector that matches pods with the label `app: gemma-summarizer-server`.
 
     - **type**: Specifies the type of service. `ClusterIP` is the default type, which exposes the service on a cluster-internal IP. This means the service is only accessible within the cluster.
 
