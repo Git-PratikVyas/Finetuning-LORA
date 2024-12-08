@@ -4,7 +4,7 @@
 - Used [Huggingface Accelerate](https://huggingface.co/docs/accelerate/index) for distributed training
 - Pushed finetuned model to [Huggingface Hub](https://huggingface.co/Prat/gemma-2-9b-it_ft_summarizer_v1) hub for deployment on GKE ( or anyother cloud ). 
 - Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
-- Find finetuning matrices at [FinetuningMatrix](https://github.com/Git-PratikVyas/Finetuning-LORA/tree/main/FinetuningMatrix)
+- Find finetuning matrices at [FinetuningMatrics](https://github.com/Git-PratikVyas/Finetuning-LORA/tree/main/FinetuningMatrics)
 
 # Table of Contents
 
