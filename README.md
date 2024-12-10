@@ -1,8 +1,8 @@
 
-# Finetuned google/gemma-2-9b-it with LORA, serving on GKE using vLLM
-- Finetuned pretrained decoder only model google/gemma-2-9b-it with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
+# Finetuned gemma-2-27b-it and gemma-2-9b-it with LORA, serving on GKE using vLLM
+- Finetuned pretrained decoder only model gemma-2-27b-it and gemma-2-9b-it with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
 - Used [Huggingface Accelerate](https://huggingface.co/docs/accelerate/index) for distributed training
-- Pushed finetuned model to [Huggingface Hub](https://huggingface.co/Prat/gemma-2-9b-it_ft_summarizer_v1) hub for deployment on GKE ( or anyother cloud ). 
+- Pushed finetuned model to [Huggingface Hub](https://huggingface.co/Prat/gemma-2-27b-it-ft-summarizer-v1) hub for deployment on GKE ( or anyother cloud ). 
 - Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
 - Find finetuning matrices at [FinetuningMetrics](https://github.com/Git-PratikVyas/Finetuning-LORA/tree/main/FinetuningMetrics)
 
@@ -63,7 +63,7 @@ Evaluate finetuned model on Rouge score and push model ( gemma-2-9b-it ) to [Hug
 ```
 
 - Deploy a vLLM to your cluster.
-deploy the vLLM container to serve ```Prat/gemma-2-9b-it_ft_summarizer_v1```
+deploy the vLLM container to serve ```Prat/gemma-2-27b-it_ft_summarizer_v1```
 
 1. Create the following vllm-3-7b-it.yaml manifest:
 ```yaml
@@ -80,7 +80,7 @@ deploy the vLLM container to serve ```Prat/gemma-2-9b-it_ft_summarizer_v1```
         metadata:
         labels:
             app: gemma-summarizer-server
-            ai.gke.io/model: gemma-2-9b-it
+            ai.gke.io/model: gemma-2-27b-it
             ai.gke.io/inference-server: vllm
             examples.ai.gke.io/source: user-guide
         spec:
@@ -104,7 +104,7 @@ deploy the vLLM container to serve ```Prat/gemma-2-9b-it_ft_summarizer_v1```
             - --tensor-parallel-size=1
             env:
             - name: MODEL_ID
-            value: Prat/gemma-2-9b-it_ft_summarizer_v1
+            value: Prat/gemma-2-27b-it_ft_summarizer_v1
             - name: HUGGING_FACE_HUB_TOKEN
             valueFrom:
                 secretKeyRef:
@@ -302,7 +302,7 @@ template:
   metadata:
     labels:
       app: gemma-summarizer-server
-      ai.gke.io/model: gemma-2-9b-it
+      ai.gke.io/model: gemma-2-27b-it
       ai.gke.io/inference-server: vllm
       examples.ai.gke.io/source: user-guide
 ```
@@ -320,8 +320,8 @@ template:
    - **app: gemma-summarizer-server**:
      This label indicates that the pod is part of the `gemma-summarizer-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
 
-   - **ai.gke.io/model: gemma-2-9b-it**:
-     This label specifies the model being used by the pod. In this case, it is the `gemma-2-9b-it` model. This label can be used to identify and manage pods that are running this specific model.
+   - **ai.gke.io/model: gemma-2-27b-it**:
+     This label specifies the model being used by the pod. In this case, it is the `gemma-2-27b-it` model. This label can be used to identify and manage pods that are running this specific model.
 
    - **ai.gke.io/inference-server: vllm**:
      This label indicates that the pod is using the `vllm` inference server. This label can be used to identify and manage pods that are running the vLLM inference server.
@@ -397,7 +397,7 @@ args:
 ```yaml
 env:
 - name: MODEL_ID
-  value: Prat/gemma-2-9b-it_ft_summarizer_v1
+  value: Prat/gemma-2-27b-it_ft_summarizer_v1
 - name: HUGGING_FACE_HUB_TOKEN
   valueFrom:
     secretKeyRef:
@@ -409,8 +409,8 @@ env:
 
   - **MODEL_ID**:
     - **name**: The name of the environment variable (`MODEL_ID`).
-    - **value**: The value of the environment variable (`Prat/gemma-2-9b-it_ft_summarizer_v1`).
-    - This environment variable is used to specify the model ID that the inference server should use. The value `Prat/gemma-2-9b-it_ft_summarizer_v1` is the identifier for the model.
+    - **value**: The value of the environment variable (`Prat/gemma-2-27b-it_ft_summarizer_v1`).
+    - This environment variable is used to specify the model ID that the inference server should use. The value `Prat/gemma-2-27b-it_ft_summarizer_v1` is the identifier for the model.
 
   - **HUGGING_FACE_HUB_TOKEN**:
     - **name**: The name of the environment variable (`HUGGING_FACE_HUB_TOKEN`).
