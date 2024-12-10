@@ -18,7 +18,7 @@
 8. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
 
 ## Introduction
-Distributed finetuned pretrained model
+Distributed finetuned pretrained model [google/gemma-2-27b-it](https://huggingface.co/google/gemma-2-27b-it) and 
 [google/gemma-2-9b-it]( https://huggingface.co/google/gemma-2-9b-it ) on [Samsum]( https://paperswithcode.com/paper/samsum-corpus-a-human-annotated-dialogue-1 ) database using [HuggingFace Accelerate](https://huggingface.co/docs/accelerate/index).
 
 Integrate and publish all training/eval matrices to [Weights & Biases (W&B)]( https://wandb.ai/home ) for tracking, monitoring, and collaboration.
