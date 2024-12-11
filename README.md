@@ -23,7 +23,7 @@ Distributed finetuned pretrained model [google/gemma-2-27b-it](https://huggingfa
 
 Integrate and publish all training/eval matrices to [Weights & Biases (W&B)]( https://wandb.ai/home ) for tracking, monitoring, and collaboration.
 
-Evaluate finetuned model on Rouge score and push model ( gemma-2-27b-it ) to [Huggingface hub]( https://huggingface.co/Prat/gemma-2-9b-it_ft_summarizer_v1) for deployment on GKE.
+Evaluate finetuned model on Rouge score and push model ( gemma-2-27b-it ) to [Huggingface hub](https://huggingface.co/Prat/gemma-2-27b-it-ft-summarizer-v1) for deployment on GKE.
 
 
 ## Prerequisite
