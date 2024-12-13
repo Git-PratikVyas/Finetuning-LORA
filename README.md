@@ -6,7 +6,7 @@
 - Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
 - Find finetuning matrices at [FinetuningMetrics](https://github.com/Git-PratikVyas/Finetuning-LORA/tree/main/FinetuningMetrics)
 
-![screenshot](G:\Downloads\Picture2.png)
+![screenshot](Picture2.png)
 
 # Table of Contents
 
