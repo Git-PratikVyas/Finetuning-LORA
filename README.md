@@ -5,7 +5,8 @@
 - Pushed finetuned model to [Huggingface Hub](https://huggingface.co/Prat/gemma-2-27b-it-ft-summarizer-v1) hub for deployment on GKE ( or anyother cloud ). 
 - Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
 - Find finetuning matrices at [FinetuningMetrics](https://github.com/Git-PratikVyas/Finetuning-LORA/tree/main/FinetuningMetrics)
-- Find my blog on LLM inference at https://www.linkedin.com/pulse/llm-inference-pratik-v-3ganf/?trackingId=DJTFAhLsd3D0N6xAY85zmg%3D%3D
+- Find my blog on LLM inference at https://medium.com/@pratik.vyas_10544/llm-inference-vllm-tgi-tensorrt-17872f7df1f5 or https://www.linkedin.com/pulse/llm-inference-pratik-v-3ganf/?trackingId=DJTFAhLsd3D0N6xAY85zmg%3D%3D
+- Find my blog on LLM Distributed Training at https://medium.com/@pratik.vyas_10544/llm-distributed-training-6695f4284e7b
 
 ![screenshot](other/Picture1.png)
 ![screenshot](other/Picture2.png)
