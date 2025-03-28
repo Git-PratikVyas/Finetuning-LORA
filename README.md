@@ -11,6 +11,7 @@
 ![screenshot](other/Picture1.png)
 ![screenshot](other/Picture2.png)
 ![screenshot](other/Picture3.png)
+![screenshot](other/Picture4.png)
 # Table of Contents
 
 1. [Introduction](#introduction)
