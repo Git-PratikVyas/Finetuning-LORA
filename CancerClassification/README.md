@@ -23,12 +23,10 @@
 8. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
 
 ## Introduction
-Distributed finetuned pretrained model [google/Llama-3.1-8B-Instruct](https://huggingface.co/google/Llama-3.1-8B-Instruct) and 
-[google/gemma-2-9b-it]( https://huggingface.co/google/gemma-2-9b-it ) on [Samsum]( https://paperswithcode.com/paper/samsum-corpus-a-human-annotated-dialogue-1 ) database using [HuggingFace Accelerate](https://huggingface.co/docs/accelerate/index).
+Distributed finetuned pretrained model meta-llama/Llama-3.1-8B-Instruct on cancer dataset using [HuggingFace Accelerate](https://huggingface.co/docs/accelerate/index).
 
-Integrate and publish all training/eval matrices to [Weights & Biases (W&B)]( https://wandb.ai/home ) for tracking, monitoring, and collaboration.
 
-Evaluate finetuned model on Rouge score and push model ( Llama-3.1-8B-Instruct ) to [Huggingface hub](https://huggingface.co/Prat/Llama-3.1-8B-Instruct-ft-summarizer-v1) for deployment on GKE.
+Evaluate finetuned model using confusion matrix ( Accuract,F1-score ) and push model ( Llama-3.1-8B-Inst_cancer_classification_finetuned ) to [Huggingface hub](https://huggingface.co/Prat/Llama-3.1-8B-Instruct-ft-summarizer-v1) for deployment on GKE.
 
 
 ## Prerequisite
