@@ -158,8 +158,14 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 2. Interact with the model using curl
 ```shell
         USER_PROMPT="
-        Summarise dialogue in one sentence.\n
-        Amanda: I baked  cookies. Do you want some?\r\nJerry: Sure!\r\nAmanda: I'll bring you tomorrow :-)"
+        Given the following text, classify if it is related to cancer or not. If text is related to cancer, Label as 'True' otherwise Label as 'False'.
+        
+        Text:
+        Title: Similarities and differences of interstitial lung disease associated with pathogenic variants in SFTPC and ABCA3 in adults.
+        Abstract: Variants in surfactant genes SFTPC or ABCA3 are responsible for interstitial lung disease (ILD) in children and adults, with few studies in adults.
+        We conducted a multicentre retrospective study of all consecutive adult patients diagnosed with ILD associated with variants in SFTPC or ABCA3 in the French rare pulmonary diseases network, OrphaLung. Variants and chest computed tomography (CT) features were centrally reviewed.
+
+        Label: "
 
         curl -X POST http://localhost:8000/generate \
         -H "Content-Type: application/json" \
