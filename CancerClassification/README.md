@@ -7,10 +7,10 @@
 - Find my blog on LLM inference at https://medium.com/@pratik.vyas_10544/llm-inference-vllm-tgi-tensorrt-17872f7df1f5 
 - Find my blog on LLM Distributed Training at https://medium.com/@pratik.vyas_10544/llm-distributed-training-6695f4284e7b
 
-![screenshot](CancerClassification/other/Picture1.png)
-![screenshot](CancerClassification/other/Picture2.png)
-![screenshot](CancerClassification/other/Picture3.png)
-![screenshot](CancerClassification/other/Picture4.png)
+![screenshot](other/CancerClassification/Picture1.png)
+![screenshot](other/CancerClassification/Picture2.png)
+![screenshot](other/CancerClassification/Picture3.png)
+![screenshot](other/CancerClassification/Picture4.png)
 # Table of Contents
 
 1. [Introduction](#introduction)
