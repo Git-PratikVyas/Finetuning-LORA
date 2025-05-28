@@ -172,9 +172,8 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
         -d @- <<EOF
         {
             "prompt": "<start_of_turn>user\n${USER_PROMPT}<end_of_turn>\n",
-            "temperature": 0.90,
-            "top_p": 1.0,
-            "max_tokens": 128
+            "temperature": 0.10,
+            "max_tokens": 3
         }
         EOF
 ```
