@@ -73,16 +73,16 @@ deploy the vLLM container to serve ```Prat/Llama-3.1-8B-Instruct_ft_summarizer_v
     apiVersion: apps/v1
     kind: Deployment
     metadata:
-    name: vllm-gemma-deployment
+    name: vllm-cancer-classification-deployment
     spec:
     replicas: 1
     selector:
         matchLabels:
-        app: gemma-summarizer-server
+        app: cancer-classification-server
     template:
         metadata:
         labels:
-            app: gemma-summarizer-server
+            app: cancer-classification-server
             ai.gke.io/model: Llama-3.1-8B-Instruct
             ai.gke.io/inference-server: vllm
             examples.ai.gke.io/source: user-guide
@@ -130,7 +130,7 @@ deploy the vLLM container to serve ```Prat/Llama-3.1-8B-Instruct_ft_summarizer_v
     name: llm-service
     spec:
     selector:
-        app: gemma-summarizer-server
+        app: cancer-classification-server
     type: ClusterIP
     ports:
         - protocol: TCP
@@ -147,7 +147,7 @@ once you apply this command, A Pod in the cluster downloads the model weights fr
 
 3. Wait for the Deployment to be available:
 ```shell 
-    kubectl wait --for=condition=Available --timeout=700s deployment/vllm-gemma-deployment
+    kubectl wait --for=condition=Available --timeout=700s deployment/vllm-cancer-classification-deployment
 ```
 
 ## Serve the model
@@ -304,7 +304,7 @@ Kubernetes Deployment YAML file in detail.
 template:
   metadata:
     labels:
-      app: gemma-summarizer-server
+      app: cancer-classification-server
       ai.gke.io/model: Llama-3.1-8B-Instruct
       ai.gke.io/inference-server: vllm
       examples.ai.gke.io/source: user-guide
@@ -320,8 +320,8 @@ template:
    - **labels**:
    The `labels` field is a set of key-value pairs that are used to organize and select Kubernetes resources. Labels are used for various purposes, such as identifying and grouping resources, and for selecting resources using label selectors.
 
-   - **app: gemma-summarizer-server**:
-     This label indicates that the pod is part of the `gemma-summarizer-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
+   - **app: cancer-classification-server**:
+     This label indicates that the pod is part of the `cancer-classification-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
 
    - **ai.gke.io/model: Llama-3.1-8B-Instruct**:
      This label specifies the model being used by the pod. In this case, it is the `Llama-3.1-8B-Instruct` model. This label can be used to identify and manage pods that are running this specific model.
@@ -485,7 +485,7 @@ metadata:
 ```yaml
 spec:
   selector:
-    app: gemma-summarizer-server
+    app: cancer-classification-server
   type: ClusterIP
   ports:
     - protocol: TCP
@@ -496,7 +496,7 @@ spec:
 - **spec**: Defines the desired state of the service, including the selector, type, and ports.
 
     - **selector**: Defines the label selector to identify the pods that the service will expose. The service will route traffic to the pods that match the specified labels.
-      - **app: gemma-summarizer-server**: The label selector that matches pods with the label `app: gemma-summarizer-server`.
+      - **app: cancer-classification-server**: The label selector that matches pods with the label `app: cancer-classification-server`.
 
     - **type**: Specifies the type of service. `ClusterIP` is the default type, which exposes the service on a cluster-internal IP. This means the service is only accessible within the cluster.
 
