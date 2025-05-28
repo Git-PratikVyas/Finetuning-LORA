@@ -1,11 +1,10 @@
 
-# Finetuned gemma-2-27b-it and gemma-2-9b-it with LORA, serving on GKE using vLLM
-- Finetuned pretrained decoder only model gemma-2-27b-it and gemma-2-9b-it with [LORA](https://arxiv.org/abs/2106.09685) for (abstracrive ) summarization task.
+# fine tune LLM (meta-llama/Llama-3.1-8B-Instruct) to extract disease data and classify research article abstracts into cancer and non-cancer categories.
+- Finetuned with LORA, serving on GKE using vLLM
 - Used [Huggingface Accelerate](https://huggingface.co/docs/accelerate/index) for distributed training
-- Pushed finetuned model to [Huggingface Hub](https://huggingface.co/Prat/gemma-2-27b-it-ft-summarizer-v1) hub for deployment on GKE ( or anyother cloud ). 
+- Pushed finetuned model to [Huggingface Hub](https://huggingface.co/Prat/Llama-3.1-8B-Instruct-ft-summarizer-v1) hub for deployment on GKE ( or anyother cloud ). 
 - Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
-- Find finetuning matrices at [FinetuningMetrics](https://github.com/Git-PratikVyas/Finetuning-LORA/tree/main/FinetuningMetrics)
-- Find my blog on LLM inference at https://medium.com/@pratik.vyas_10544/llm-inference-vllm-tgi-tensorrt-17872f7df1f5 or https://www.linkedin.com/pulse/llm-inference-pratik-v-3ganf/?trackingId=DJTFAhLsd3D0N6xAY85zmg%3D%3D
+- Find my blog on LLM inference at https://medium.com/@pratik.vyas_10544/llm-inference-vllm-tgi-tensorrt-17872f7df1f5 
 - Find my blog on LLM Distributed Training at https://medium.com/@pratik.vyas_10544/llm-distributed-training-6695f4284e7b
 
 ![screenshot](other/Picture1.png)
@@ -24,12 +23,12 @@
 8. [Appendix-Kubernetes Deployment Explanation](#appendix-kubernetes-deployment-explanation)
 
 ## Introduction
-Distributed finetuned pretrained model [google/gemma-2-27b-it](https://huggingface.co/google/gemma-2-27b-it) and 
+Distributed finetuned pretrained model [google/Llama-3.1-8B-Instruct](https://huggingface.co/google/Llama-3.1-8B-Instruct) and 
 [google/gemma-2-9b-it]( https://huggingface.co/google/gemma-2-9b-it ) on [Samsum]( https://paperswithcode.com/paper/samsum-corpus-a-human-annotated-dialogue-1 ) database using [HuggingFace Accelerate](https://huggingface.co/docs/accelerate/index).
 
 Integrate and publish all training/eval matrices to [Weights & Biases (W&B)]( https://wandb.ai/home ) for tracking, monitoring, and collaboration.
 
-Evaluate finetuned model on Rouge score and push model ( gemma-2-27b-it ) to [Huggingface hub](https://huggingface.co/Prat/gemma-2-27b-it-ft-summarizer-v1) for deployment on GKE.
+Evaluate finetuned model on Rouge score and push model ( Llama-3.1-8B-Instruct ) to [Huggingface hub](https://huggingface.co/Prat/Llama-3.1-8B-Instruct-ft-summarizer-v1) for deployment on GKE.
 
 
 ## Prerequisite
@@ -69,7 +68,7 @@ Evaluate finetuned model on Rouge score and push model ( gemma-2-27b-it ) to [Hu
 ```
 
 - Deploy a vLLM to your cluster.
-deploy the vLLM container to serve ```Prat/gemma-2-27b-it_ft_summarizer_v1```
+deploy the vLLM container to serve ```Prat/Llama-3.1-8B-Instruct_ft_summarizer_v1```
 
 1. Create the following vllm-3-7b-it.yaml manifest:
 ```yaml
@@ -86,7 +85,7 @@ deploy the vLLM container to serve ```Prat/gemma-2-27b-it_ft_summarizer_v1```
         metadata:
         labels:
             app: gemma-summarizer-server
-            ai.gke.io/model: gemma-2-27b-it
+            ai.gke.io/model: Llama-3.1-8B-Instruct
             ai.gke.io/inference-server: vllm
             examples.ai.gke.io/source: user-guide
         spec:
@@ -110,7 +109,7 @@ deploy the vLLM container to serve ```Prat/gemma-2-27b-it_ft_summarizer_v1```
             - --tensor-parallel-size=1
             env:
             - name: MODEL_ID
-            value: Prat/gemma-2-27b-it_ft_summarizer_v1
+            value: Prat/Llama-3.1-8B-Instruct_ft_summarizer_v1
             - name: HUGGING_FACE_HUB_TOKEN
             valueFrom:
                 secretKeyRef:
@@ -308,7 +307,7 @@ template:
   metadata:
     labels:
       app: gemma-summarizer-server
-      ai.gke.io/model: gemma-2-27b-it
+      ai.gke.io/model: Llama-3.1-8B-Instruct
       ai.gke.io/inference-server: vllm
       examples.ai.gke.io/source: user-guide
 ```
@@ -326,8 +325,8 @@ template:
    - **app: gemma-summarizer-server**:
      This label indicates that the pod is part of the `gemma-summarizer-server` application. It is a common practice to use the `app` label to identify the application to which the pod belongs.
 
-   - **ai.gke.io/model: gemma-2-27b-it**:
-     This label specifies the model being used by the pod. In this case, it is the `gemma-2-27b-it` model. This label can be used to identify and manage pods that are running this specific model.
+   - **ai.gke.io/model: Llama-3.1-8B-Instruct**:
+     This label specifies the model being used by the pod. In this case, it is the `Llama-3.1-8B-Instruct` model. This label can be used to identify and manage pods that are running this specific model.
 
    - **ai.gke.io/inference-server: vllm**:
      This label indicates that the pod is using the `vllm` inference server. This label can be used to identify and manage pods that are running the vLLM inference server.
@@ -403,7 +402,7 @@ args:
 ```yaml
 env:
 - name: MODEL_ID
-  value: Prat/gemma-2-27b-it_ft_summarizer_v1
+  value: Prat/Llama-3.1-8B-Instruct_ft_summarizer_v1
 - name: HUGGING_FACE_HUB_TOKEN
   valueFrom:
     secretKeyRef:
@@ -415,8 +414,8 @@ env:
 
   - **MODEL_ID**:
     - **name**: The name of the environment variable (`MODEL_ID`).
-    - **value**: The value of the environment variable (`Prat/gemma-2-27b-it_ft_summarizer_v1`).
-    - This environment variable is used to specify the model ID that the inference server should use. The value `Prat/gemma-2-27b-it_ft_summarizer_v1` is the identifier for the model.
+    - **value**: The value of the environment variable (`Prat/Llama-3.1-8B-Instruct_ft_summarizer_v1`).
+    - This environment variable is used to specify the model ID that the inference server should use. The value `Prat/Llama-3.1-8B-Instruct_ft_summarizer_v1` is the identifier for the model.
 
   - **HUGGING_FACE_HUB_TOKEN**:
     - **name**: The name of the environment variable (`HUGGING_FACE_HUB_TOKEN`).
