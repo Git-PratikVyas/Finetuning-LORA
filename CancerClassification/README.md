@@ -5,7 +5,7 @@
 - Pushed finetuned model to [Huggingface Hub](https://huggingface.co/Prat/Llama-3.1-8B-Instruct-ft-summarizer-v1) hub for deployment on GKE ( or anyother cloud ). 
 - Serve model using GPUs on GKE with [vLLM](https://docs.vllm.ai/en/latest/) for distributed inference.
 - Find my blog on [LLM inference](https://medium.com/@pratik.vyas_10544/llm-inference-vllm-tgi-tensorrt-17872f7df1f5)
-- Find my blog on [LLM Transformer(decoder , encoder)](https://medium.com/@pratik.vyas_10544/llm-distributed-training-6695f4284e7b)
+- Find my blog on [LLM Transformer(encoder,decoder)](https://medium.com/@pratik.vyas_10544/transformer-encoder-part-1-1d926707f74b)
 
 ![screenshot](../other/Picture1.png)
 ![screenshot](../other/Picture2.png)
