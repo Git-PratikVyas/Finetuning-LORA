@@ -18,7 +18,8 @@
 ![screenshot](../other/Picture2.png)
 ![screenshot](../other/Picture3.png)
 ![screenshot](../other/Picture4.png)
-# Table of Contents
+
+# Model Deployment on GKE
 
 1. [Introduction](#introduction)
 2. [Prerequisite](#prerequisite)
