@@ -1,5 +1,12 @@
 
 # fine tune LLM (meta-llama/Llama-3.1-8B-Instruct) to extract disease data and classify research article abstracts into cancer and non-cancer categories.
+
+# List of Models finetuned for cancer classification
+1. [meta-llama/Llama-3.1-8B-Instruct (CausalLM)](https://github.com/Git-PratikVyas/Finetuning-LORA/blob/main/CancerClassification/Llama-3.1-8B-Instruct_cancer_classification_finetuning.ipynb)
+2. [distilbert (SequenceClassification)](https://github.com/Git-PratikVyas/Finetuning-LORA/blob/main/CancerClassification/distilbert_cancer_classification_finetuning.ipynb)
+
+
+# other details
 - Finetuned with LORA, serving on GKE using vLLM
 - Used [Huggingface Accelerate](https://huggingface.co/docs/accelerate/index) for distributed training
 - Pushed finetuned model to [Huggingface Hub](https://huggingface.co/Prat/Llama-3.1-8B-Instruct-ft-summarizer-v1) hub for deployment on GKE ( or anyother cloud ). 
