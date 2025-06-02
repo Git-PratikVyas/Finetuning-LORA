@@ -1,5 +1,7 @@
 ## Comparative Study: Before and After Fine-Tuning
 
+**Jupyter Notebook:** [Llama-3.1-8B-Instruct_cancer_classification_finetuning.ipynb](https://github.com/Git-PratikVyas/Finetuning-LORA/blob/main/CancerClassification/Llama-3.1-8B-Instruct_cancer_classification_finetuning.ipynb)
+
 This table summarizes the performance of a binary classification model (Cancer vs. Non-Cancer) *before* and *after* LLM fine-tuning. 
 
 
