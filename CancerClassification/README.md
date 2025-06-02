@@ -1,6 +1,3 @@
-
-# fine tune LLM (meta-llama/Llama-3.1-8B-Instruct) to extract disease data and classify research article abstracts into cancer and non-cancer categories.
-
 # List of Models finetuned for cancer classification
 1. [meta-llama/Llama-3.1-8B-Instruct (CausalLM)](https://github.com/Git-PratikVyas/Finetuning-LORA/blob/main/CancerClassification/Llama-3.1-8B-Instruct_cancer_classification_finetuning.ipynb)
 2. [distilbert (SequenceClassification)](https://github.com/Git-PratikVyas/Finetuning-LORA/blob/main/CancerClassification/distilbert_cancer_classification_finetuning.ipynb)
